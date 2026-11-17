@@ -1,0 +1,1682 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class_XII Biology Visual Flashcards for Akshra</title>
+    <style>
+        :root {
+            --primary: #0f766e;
+            --primary-dark: #115e59;
+            --primary-light: #f0fdfa;
+            --accent: #d97706;
+            --bg: #f1f5f9;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --muted: #64748b;
+            --border: #cbd5e1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+        }
+
+        header {
+            background: linear-gradient(135deg, #0f766e 0%, #134e4a 100%);
+            color: white;
+            padding: 20px 24px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-top {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h1 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+
+        .subtitle {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+        }
+
+        select,
+        button {
+            padding: 8px 14px;
+            border-radius: 8px;
+            border: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        select {
+            background: white;
+            color: var(--text);
+        }
+
+        .btn-light {
+            background: rgba(255, 255, 255, 0.18);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-light:hover {
+            background: rgba(255, 255, 255, 0.28);
+        }
+
+        .btn-print {
+            background: #f59e0b;
+            color: #1e293b;
+        }
+
+        .btn-print:hover {
+            background: #fbbf24;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 24px auto;
+            padding: 0 16px 60px;
+        }
+
+        .info-banner {
+            background: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.88rem;
+            color: #78350f;
+        }
+
+        .card-wrapper {
+            margin-bottom: 28px;
+            break-inside: avoid;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .card-front {
+            padding: 24px 28px;
+            background: linear-gradient(to right, #ffffff, #f8fafc);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .card-front:hover {
+            background: #f0fdfa;
+        }
+
+        .badge-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .card-num {
+            background: var(--primary);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 999px;
+        }
+
+        .ch-tag {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            background: #ccfbf1;
+            padding: 3px 10px;
+            border-radius: 999px;
+        }
+
+        .topic-title {
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--muted);
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .question-text {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .flip-hint {
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            border: 1px solid #99f6e4;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .card-back {
+            display: none;
+            border-top: 2px dashed var(--border);
+            padding: 24px 28px;
+            background: #ffffff;
+        }
+
+        .card.revealed .card-back {
+            display: block;
+        }
+
+        .back-grid {
+            display: grid;
+            grid-template-columns: 1.15fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        @media (max-width: 768px) {
+            .back-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card-front {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        .visual-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 14px;
+            text-align: center;
+        }
+
+        .visual-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--primary);
+            margin-bottom: 8px;
+            text-align: left;
+        }
+
+        .visual-box svg {
+            width: 100%;
+            max-height: 250px;
+            height: auto;
+        }
+
+        .explanation {
+            font-size: 0.95rem;
+            color: #334155;
+            margin-bottom: 14px;
+        }
+
+        .recall-box {
+            background: var(--primary-light);
+            border: 1px solid #99f6e4;
+            border-radius: 10px;
+            padding: 12px 16px;
+        }
+
+        .recall-title {
+            font-size: 0.78rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: var(--primary-dark);
+            margin-bottom: 6px;
+        }
+
+        .recall-box ul {
+            padding-left: 18px;
+            font-size: 0.88rem;
+            color: #134e4a;
+        }
+
+        .recall-box li {
+            margin-bottom: 4px;
+        }
+
+        .trap-note {
+            margin-top: 10px;
+            font-size: 0.82rem;
+            background: #fef2f2;
+            color: #991b1b;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border-left: 3px solid #ef4444;
+        }
+
+        .love-footer {
+            text-align: center;
+            background: linear-gradient(135deg, #fff1f2, #ffe4e6);
+            border: 1px solid #fecdd3;
+            border-radius: 16px;
+            padding: 24px;
+            margin-top: 32px;
+            color: #881337;
+        }
+
+        /* Print styles for instant PDF export */
+        @media print {
+
+            header,
+            .info-banner,
+            .flip-hint {
+                display: none !important;
+            }
+
+            body {
+                background: white;
+            }
+
+            .container {
+                max-width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            .card-back {
+                display: block !important;
+            }
+
+            .card {
+                box-shadow: none;
+                border: 1.5px solid #94a3b8;
+                margin-bottom: 18px;
+                page-break-inside: avoid;
+            }
+
+            .back-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="header-top">
+            <div>
+                <h1>Class XII Biology Visual Flashcards for Akshra</h1>
+                <div class="subtitle">NCERT Chapters 1–13 (Latest Rationalised Syllabus) • CBSE Boards + NEET UG 2027
+                </div>
+            </div>
+            <div class="controls">
+                <select id="chapterFilter" onchange="filterCards()">
+                    <option value="all">All 13 Chapters (39 Cards)</option>
+                    <option value="1">Ch 1: Sexual Reproduction in Flowering Plants</option>
+                    <option value="2">Ch 2: Human Reproduction</option>
+                    <option value="3">Ch 3: Reproductive Health</option>
+                    <option value="4">Ch 4: Principles of Inheritance & Variation</option>
+                    <option value="5">Ch 5: Molecular Basis of Inheritance</option>
+                    <option value="6">Ch 6: Evolution</option>
+                    <option value="7">Ch 7: Human Health and Disease</option>
+                    <option value="8">Ch 8: Microbes in Human Welfare</option>
+                    <option value="9">Ch 9: Biotechnology: Principles & Processes</option>
+                    <option value="10">Ch 10: Biotechnology & Its Applications</option>
+                    <option value="11">Ch 11: Organisms and Populations</option>
+                    <option value="12">Ch 12: Ecosystem</option>
+                    <option value="13">Ch 13: Biodiversity and Conservation</option>
+                </select>
+                <button class="btn-light" onclick="toggleAll(true)">Show All Answers</button>
+                <button class="btn-light" onclick="toggleAll(false)">Hide Answers (Quiz Mode)</button>
+                <button class="btn-print" onclick="window.print()">Save as PDF</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="info-banner">
+            <strong>How to use:</strong> Click any card to flip and reveal the <strong>NCERT-labelled diagram</strong> +
+            high-yield answer. To save a clean PDF copy, click <strong>"Save as PDF"</strong> at the top right (or press
+            <code>Ctrl + P</code>).
+        </div>
+
+        <div id="cardsContainer"></div>
+
+        <div class="love-footer">
+            <h3>All The Very Best, Meri Future Doctor! 🩺✨</h3>
+            <p style="margin-top:8px; font-size:0.95rem;">
+                Meri wifeyyy, meri soulmate, meri Faguniya, meri jaanu, meri gudiya rani — aapne poora syllabus revise
+                kar liya hai! Full confidence ke saath paper likhne jaiyega, aap dono exams phod dengi! ❤️👑
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const flashcards = [
+            // CHAPTER 1
+            {
+                ch: 1, chName: "Ch 1: Sexual Reproduction in Flowering Plants",
+                topic: "Microsporangium & Anther Wall Layers",
+                q: "Identify the four wall layers of a microsporangium from outside to inside and state their roles.",
+                ans: "A typical angiosperm anther is bilobed, dithecous, and tetrasporangiate (4 microsporangia). From outer to inner, the four wall layers are: <b>Epidermis</b>, <b>Endothecium</b>, <b>Middle layers</b>, and <b>Tapetum</b>.",
+                bullets: [
+                    "Outer 3 layers (Epidermis, Endothecium, Middle layers): Protection & dehiscence of anther.",
+                    "Tapetum (Innermost): Nourishes developing pollen grains; dense cytoplasm & polyploid/multinucleate.",
+                    "Microsporogenesis: Sporogenous cell / PMC (2n) → Meiosis → 4 haploid microspores (tetrad)."
+                ],
+                trap: "NEET Trap: Tapetum cells divide by endomitosis and generally possess more than one nucleus.",
+                svg: `<svg viewBox="0 0 360 220">
+      <rect width="360" height="220" fill="#fff"/>
+      <!-- Butterfly T.S. outline of anther -->
+      <path d="M110,30 C60,30 40,70 55,110 C40,150 60,190 110,190 C140,190 155,165 180,165 C205,165 220,190 250,190 C300,190 320,150 305,110 C320,70 300,30 250,30 C220,30 205,55 180,55 C155,55 140,30 110,30 Z" fill="#fef3c7" stroke="#b45309" stroke-width="3"/>
+      <!-- Connective -->
+      <circle cx="180" cy="110" r="16" fill="#fde68a" stroke="#92400e" stroke-width="2"/>
+      <!-- 4 Microsporangia -->
+      <circle cx="105" cy="72" r="26" fill="#dcfce7" stroke="#15803d" stroke-width="2.5"/>
+      <circle cx="255" cy="72" r="26" fill="#dcfce7" stroke="#15803d" stroke-width="2.5"/>
+      <circle cx="105" cy="148" r="26" fill="#dcfce7" stroke="#15803d" stroke-width="2.5"/>
+      <circle cx="255" cy="148" r="26" fill="#dcfce7" stroke="#15803d" stroke-width="2.5"/>
+      <!-- Inner Tapetum & Sporogenous tissue -->
+      <circle cx="105" cy="72" r="16" fill="#bbf7d0" stroke="#166534" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <circle cx="255" cy="72" r="16" fill="#bbf7d0" stroke="#166534" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <circle cx="105" cy="148" r="16" fill="#bbf7d0" stroke="#166534" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <circle cx="255" cy="148" r="16" fill="#bbf7d0" stroke="#166534" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <!-- Labels -->
+      <line x1="180" y1="94" x2="180" y2="20" stroke="#334155" stroke-width="1.2"/>
+      <text x="180" y="15" font-size="11" font-weight="bold" text-anchor="middle" fill="#0f172a">Connective</text>
+      <line x1="55" y1="60" x2="12" y2="40" stroke="#334155" stroke-width="1.2"/>
+      <text x="10" y="36" font-size="10.5" font-weight="bold" fill="#0f172a">Epidermis</text>
+      <line x1="79" y1="72" x2="12" y2="75" stroke="#334155" stroke-width="1.2"/>
+      <text x="10" y="72" font-size="10.5" font-weight="bold" fill="#0f172a">Endothecium</text>
+      <line x1="88" y1="84" x2="12" y2="112" stroke="#334155" stroke-width="1.2"/>
+      <text x="10" y="109" font-size="10.5" font-weight="bold" fill="#0f172a">Middle layers</text>
+      <line x1="92" y1="148" x2="12" y2="152" stroke="#334155" stroke-width="1.2"/>
+      <text x="10" y="149" font-size="10.5" font-weight="bold" fill="#15803d">Tapetum</text>
+      <line x1="105" y1="148" x2="105" y2="208" stroke="#334155" stroke-width="1.2"/>
+      <text x="105" y="217" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#0f172a">Sporogenous tissue (2n)</text>
+    </svg>`
+            },
+            {
+                ch: 1, chName: "Ch 1: Sexual Reproduction in Flowering Plants",
+                topic: "Anatropous Ovule & Mature Embryo Sac",
+                q: "Describe the organisation of a mature Polygonum-type embryo sac and name the parts of an anatropous ovule.",
+                ans: "One functional megaspore undergoes <b>3 free-nuclear mitotic divisions</b> to form a <b>7-celled, 8-nucleate</b> embryo sac. Synergids contain the <b>filiform apparatus</b> which guides the pollen tube.",
+                bullets: [
+                    "Micropylar end: Egg apparatus = 1 Egg cell (n) + 2 Synergids (n).",
+                    "Centre: 1 Large Central Cell containing 2 Polar Nuclei (n + n).",
+                    "Chalazal end: 3 Antipodal cells (n).",
+                    "Ovule parts: Funicle, Hilum, Outer/Inner Integuments, Micropyle, Nucellus (2n), Chalaza."
+                ],
+                trap: "NEET Trap: 3 + 2 + 3 = 8 nuclei, but they are organised into 7 cells (Central cell has 2 nuclei).",
+                svg: `<svg viewBox="0 0 360 220">
+      <rect width="360" height="220" fill="#fff"/>
+      <!-- Embryo Sac Oval -->
+      <ellipse cx="150" cy="110" rx="52" ry="88" fill="#ecfdf5" stroke="#0f766e" stroke-width="3"/>
+      <!-- Chalazal Antipodals (Top) -->
+      <circle cx="132" cy="42" r="10" fill="#c7d2fe" stroke="#4338ca" stroke-width="1.5"/>
+      <circle cx="150" cy="38" r="10" fill="#c7d2fe" stroke="#4338ca" stroke-width="1.5"/>
+      <circle cx="168" cy="42" r="10" fill="#c7d2fe" stroke="#4338ca" stroke-width="1.5"/>
+      <!-- Central Polar Nuclei -->
+      <circle cx="143" cy="105" r="11" fill="#fecdd3" stroke="#be123c" stroke-width="1.5"/>
+      <circle cx="158" cy="105" r="11" fill="#fecdd3" stroke="#be123c" stroke-width="1.5"/>
+      <!-- Micropylar Egg & Synergids (Bottom) -->
+      <circle cx="150" cy="150" r="11" fill="#fde68a" stroke="#b45309" stroke-width="1.5"/>
+      <ellipse cx="134" cy="168" rx="11" ry="15" fill="#bbf7d0" stroke="#15803d" stroke-width="1.5"/>
+      <ellipse cx="166" cy="168" rx="11" ry="15" fill="#bbf7d0" stroke="#15803d" stroke-width="1.5"/>
+      <!-- Filiform apparatus -->
+      <path d="M128,180 Q134,172 140,180 M160,180 Q166,172 172,180" stroke="#166534" stroke-width="2" fill="none"/>
+      <!-- Labels -->
+      <text x="150" y="15" font-size="11" font-weight="bold" text-anchor="middle" fill="#0f766e">Chalazal end</text>
+      <line x1="178" y1="42" x2="225" y2="42" stroke="#334155"/>
+      <text x="230" y="45" font-size="11" font-weight="bold" fill="#0f172a">Antipodals (3)</text>
+      <line x1="169" y1="105" x2="225" y2="100" stroke="#334155"/>
+      <text x="230" y="103" font-size="11" font-weight="bold" fill="#0f172a">Polar nuclei (2)</text>
+      <line x1="198" y1="122" x2="225" y2="122" stroke="#334155"/>
+      <text x="230" y="125" font-size="11" font-weight="bold" fill="#0f172a">Central cell</text>
+      <line x1="161" y1="150" x2="225" y2="148" stroke="#334155"/>
+      <text x="230" y="151" font-size="11" font-weight="bold" fill="#b45309">Egg cell (1)</text>
+      <line x1="177" y1="168" x2="225" y2="170" stroke="#334155"/>
+      <text x="230" y="173" font-size="11" font-weight="bold" fill="#15803d">Synergids (2)</text>
+      <line x1="172" y1="180" x2="225" y2="192" stroke="#334155"/>
+      <text x="230" y="195" font-size="11" font-weight="bold" fill="#0f172a">Filiform apparatus</text>
+      <text x="150" y="213" font-size="11" font-weight="bold" text-anchor="middle" fill="#0f766e">Micropylar end</text>
+    </svg>`
+            },
+            {
+                ch: 1, chName: "Ch 1: Sexual Reproduction in Flowering Plants",
+                topic: "Double Fertilisation, Seeds & Fruits",
+                q: "Explain double fertilisation and list the post-fertilisation fates of ovule parts, false fruits, and apomixis.",
+                ans: "Unique to angiosperms: <b>Syngamy</b> (Male gamete n + Egg n → Zygote 2n) + <b>Triple fusion</b> (Male gamete n + 2 Polar nuclei → PEN 3n). Total <b>5 nuclei</b> participate.",
+                bullets: [
+                    "Ovule → Seed; Integuments → Testa & Tegmen; Ovary → Fruit; Ovary wall → Pericarp.",
+                    "Perisperm: Persistent diploid nucellus (2n) in Black pepper & Beet.",
+                    "False fruits (thalamus contributes): Apple, Strawberry, Cashew (Mnemonic: ASC).",
+                    "Apomixis: Asexual seed without fertilisation (Asteraceae, grasses); Parthenocarpy: Seedless fruit (Banana)."
+                ],
+                trap: "NEET Trap: Water hyacinth & Water lily are aquatic plants pollinated by insects or wind, NOT water!",
+                svg: `<svg viewBox="0 0 360 220">
+      <rect width="360" height="220" fill="#fff"/>
+      <!-- L.S. Monocot Grass Embryo (NCERT Fig 1.14b) -->
+      <path d="M135,20 L165,45 L155,195 C145,205 125,200 120,185 L110,90 Z" fill="#fef9c3" stroke="#854d0e" stroke-width="2.5"/>
+      <!-- Scutellum -->
+      <path d="M135,20 L150,45 L130,115 L110,90 Z" fill="#fde047" stroke="#854d0e" stroke-width="2"/>
+      <!-- Coleoptile & Shoot apex -->
+      <path d="M142,65 C155,60 165,75 162,105 L140,105 Z" fill="#bbf7d0" stroke="#15803d" stroke-width="1.8"/>
+      <!-- Epiblast -->
+      <path d="M162,112 L175,105 L163,125 Z" fill="#fef08a" stroke="#854d0e" stroke-width="1.8"/>
+      <!-- Radicle & Coleorhiza -->
+      <path d="M135,140 L152,140 L146,175 L138,175 Z" fill="#fed7aa" stroke="#c2410c" stroke-width="1.8"/>
+      <!-- Labels -->
+      <line x1="145" y1="35" x2="215" y2="30" stroke="#334155"/><text x="220" y="33" font-size="11" font-weight="bold">Scutellum (Cotyledon)</text>
+      <line x1="158" y1="75" x2="215" y2="62" stroke="#334155"/><text x="220" y="65" font-size="11" font-weight="bold">Coleoptile</text>
+      <line x1="150" y1="90" x2="215" y2="90" stroke="#334155"/><text x="220" y="93" font-size="11" font-weight="bold">Shoot apex</text>
+      <line x1="170" y1="112" x2="215" y2="118" stroke="#334155"/><text x="220" y="121" font-size="11" font-weight="bold">Epiblast</text>
+      <line x1="146" y1="155" x2="215" y2="148" stroke="#334155"/><text x="220" y="151" font-size="11" font-weight="bold">Radicle</text>
+      <line x1="144" y1="172" x2="215" y2="174" stroke="#334155"/><text x="220" y="177" font-size="11" font-weight="bold">Root cap</text>
+      <line x1="144" y1="192" x2="215" y2="198" stroke="#334155"/><text x="220" y="201" font-size="11" font-weight="bold">Coleorhiza</text>
+    </svg>`
+            },
+
+            // CHAPTER 2
+            {
+                ch: 2, chName: "Ch 2: Human Reproduction",
+                topic: "Male Reproductive System & Sperm Structure",
+                q: "Trace the sperm transport pathway and label the parts of a human spermatozoon.",
+                ans: "Testes maintain <b>2–2.5°C lower</b> temperature than body temp. Sperm pathway: <b>Seminiferous tubules → Rete testis → Vasa efferentia → Epididymis → Vas deferens → Ejaculatory duct → Urethra</b>.",
+                bullets: [
+                    "Sertoli cells: Nourish germ cells & secrete Inhibin / ABP (stimulated by FSH).",
+                    "Leydig (Interstitial) cells: Secrete Androgens / Testosterone (stimulated by LH).",
+                    "Acrosome: Contains hydrolytic enzymes for ovum penetration; Middle piece has spiral mitochondria."
+                ],
+                trap: "NEET Trap: Spermiogenesis = transformation of spermatids into sperms; Spermiation = release of sperms from Sertoli cells.",
+                svg: `<svg viewBox="0 0 360 220">
+      <rect width="360" height="220" fill="#fff"/>
+      <!-- Human Sperm Diagram (NCERT Fig 2.6) -->
+      <!-- Head -->
+      <path d="M90,20 C78,20 72,45 72,62 C72,76 80,82 90,82 C100,82 108,76 108,62 C108,45 102,20 90,20 Z" fill="#fce7f3" stroke="#9d174d" stroke-width="2"/>
+      <!-- Acrosome -->
+      <path d="M90,22 C83,22 79,34 79,40 L101,40 C101,34 97,22 90,22 Z" fill="#f59e0b" stroke="#b45309" stroke-width="1.5"/>
+      <!-- Nucleus -->
+      <ellipse cx="90" cy="60" rx="12" ry="16" fill="#fbcfe8" stroke="#831843" stroke-width="1.5"/>
+      <!-- Neck & Middle Piece -->
+      <rect x="83" y="82" width="14" height="58" fill="#fef3c7" stroke="#92400e" stroke-width="2"/>
+      <path d="M84,90 L96,96 M84,100 L96,106 M84,110 L96,116 M84,120 L96,126 M84,130 L96,136" stroke="#b45309" stroke-width="2"/>
+      <!-- Tail -->
+      <path d="M90,140 C90,175 75,205 100,210 C125,215 135,180 120,155" fill="none" stroke="#be185d" stroke-width="4" stroke-linecap="round"/>
+      <!-- Labels -->
+      <line x1="96" y1="24" x2="175" y2="24" stroke="#334155"/><text x="180" y="27" font-size="11" font-weight="bold">Plasma membrane</text>
+      <line x1="98" y1="34" x2="175" y2="48" stroke="#334155"/><text x="180" y="51" font-size="11" font-weight="bold">Acrosome</text>
+      <line x1="100" y1="62" x2="175" y2="74" stroke="#334155"/><text x="180" y="77" font-size="11" font-weight="bold">Nucleus (haploid, n)</text>
+      <line x1="97" y1="84" x2="175" y2="100" stroke="#334155"/><text x="180" y="103" font-size="11" font-weight="bold">Neck</text>
+      <line x1="97" y1="112" x2="175" y2="126" stroke="#334155"/><text x="180" y="129" font-size="11" font-weight="bold">Middle piece (Mitochondria)</text>
+      <line x1="126" y1="165" x2="175" y2="165" stroke="#334155"/><text x="180" y="168" font-size="11" font-weight="bold">Tail (motility)</text>
+      <text x="42" y="55" font-size="11" font-weight="bold" fill="#9d174d">Head</text>
+    </svg>`
+            },
+            {
+                ch: 2, chName: "Ch 2: Human Reproduction",
+                topic: "Oogenesis & Menstrual Cycle Hormonal Control",
+                q: "Compare the arrest stages of oogenesis and explain the hormonal events of the 28-day menstrual cycle.",
+                ans: "Primary oocyte arrests at <b>Prophase-I (Diplotene)</b> until puberty. At ovulation (Day 14), a <b>secondary oocyte (n)</b> arrested at <b>Metaphase-II</b> is released due to the mid-cycle <b>LH Surge</b>.",
+                bullets: [
+                    "Corpus luteum secretes large amounts of Progesterone (maintains endometrium).",
+                    "100 Primary oocytes → 100 Ova + 300 Polar bodies (vs 100 Primary spermatocytes → 400 Sperms).",
+                    "Endometrium regenerates in follicular phase; shed during menstruation if fertilisation fails."
+                ],
+                trap: "NEET Trap: Meiosis-II in secondary oocyte completes ONLY when a sperm enters the cytoplasm.",
+                svg: `<svg viewBox="0 0 360 220">
+      <rect width="360" height="220" fill="#fff"/>
+      <!-- Axes -->
+      <line x1="35" y1="185" x2="345" y2="185" stroke="#334155" stroke-width="1.5"/>
+      <line x1="35" y1="20" x2="35" y2="185" stroke="#334155" stroke-width="1.5"/>
+      <!-- Day 14 Vertical Line -->
+      <line x1="185" y1="20" x2="185" y2="185" stroke="#94a3b8" stroke-dasharray="4,3" stroke-width="1.5"/>
+      <!-- LH Curve (Blue peak at Day 14) -->
+      <path d="M40,115 L155,112 Q175,110 185,30 Q195,110 215,115 L335,118" fill="none" stroke="#0284c7" stroke-width="2.8"/>
+      <!-- FSH Curve (Pink smaller peak at Day 14) -->
+      <path d="M40,95 Q110,120 165,118 Q178,116 185,72 Q192,116 205,120 L335,105" fill="none" stroke="#e11d48" stroke-width="2.2"/>
+      <!-- Progesterone Curve (Green peak in Luteal Phase) -->
+      <path d="M40,175 L185,174 Q245,125 280,174 L335,176" fill="none" stroke="#16a34a" stroke-width="2.5"/>
+      <!-- Labels -->
+      <text x="185" y="16" font-size="11" font-weight="bold" text-anchor="middle" fill="#0284c7">LH Surge (Day 14 → Ovulation)</text>
+      <text x="52" y="88" font-size="10.5" font-weight="bold" fill="#e11d48">FSH</text>
+      <text x="255" y="138" font-size="10.5" font-weight="bold" fill="#16a34a">Progesterone (Corpus luteum)</text>
+      <text x="75" y="202" font-size="10" font-weight="bold" text-anchor="middle">Menses (1-5)</text>
+      <text x="145" y="202" font-size="10" font-weight="bold" text-anchor="middle">Follicular (6-13)</text>
+      <text x="255" y="202" font-size="10" font-weight="bold" text-anchor="middle">Luteal / Secretory (15-28)</text>
+    </svg>`
+            },
+            {
+                ch: 2, chName: "Ch 2: Human Reproduction",
+                topic: "Fertilisation, Blastocyst & Parturition",
+                q: "State the site of fertilisation, structure of the blastocyst, pregnancy-only hormones, and parturition reflex.",
+                ans: "Fertilisation occurs in the <b>ampullary region</b> of the fallopian tube. Zona pellucida blocks polyspermy. Implantation occurs in the endometrium at the <b>blastocyst</b> stage.",
+                bullets: [
+                    "Blastocyst: Outer Trophoblast (attaches to endometrium) + Inner Cell Mass (forms embryo; has stem cells).",
+                    "Pregnancy-only hormones: hCG, hPL (placenta), and Relaxin (secreted by ovary in later pregnancy).",
+                    "Parturition: Foetal ejection reflex → maternal posterior pituitary releases Oxytocin → strong contractions."
+                ],
+                trap: "NEET Trap: Latest NCERT specifies 'ampullary region' (not ampullary-isthmic junction) as site of fertilisation.",
+                svg: `<svg viewBox="0 0 360 220">
+      <rect width="360" height="220" fill="#fff"/>
+      <!-- Blastocyst Diagram -->
+      <circle cx="135" cy="110" r="78" fill="#f0fdfa" stroke="#0f766e" stroke-width="5"/>
+      <!-- Trophoblast cells ring -->
+      <circle cx="135" cy="110" r="72" fill="none" stroke="#14b8a6" stroke-width="2" stroke-dasharray="6,4"/>
+      <!-- Inner Cell Mass -->
+      <circle cx="102" cy="82" r="24" fill="#fde68a" stroke="#b45309" stroke-width="2"/>
+      <circle cx="96" cy="78" r="6" fill="#f59e0b"/><circle cx="108" cy="76" r="6" fill="#f59e0b"/>
+      <circle cx="102" cy="88" r="6" fill="#f59e0b"/><circle cx="92" cy="88" r="6" fill="#f59e0b"/>
+      <!-- Labels -->
+      <line x1="205" y1="75" x2="245" y2="60" stroke="#334155"/><text x="250" y="63" font-size="11" font-weight="bold">Trophoblast (outer)</text>
+      <line x1="122" y1="85" x2="245" y2="105" stroke="#334155"/><text x="250" y="108" font-size="11" font-weight="bold" fill="#b45309">Inner cell mass (embryo)</text>
+      <line x1="155" y1="135" x2="245" y2="150" stroke="#334155"/><text x="250" y="153" font-size="11" font-weight="bold" fill="#0f766e">Blastocoel (cavity)</text>
+      <text x="135" y="208" font-size="11" font-weight="bold" text-anchor="middle">Human Blastocyst (Implantation Stage)</text>
+    </svg>`
+            },
+
+            // CHAPTER 3
+            {
+                ch: 3, chName: "Ch 3: Reproductive Health",
+                topic: "Contraceptive Methods & IUDs",
+                q: "Classify IUDs with examples and mechanisms, and explain lactational amenorrhea and Saheli.",
+                ans: "IUDs are ideal contraceptives for females wanting to delay pregnancy or space children: <b>Non-medicated</b> (Lippes loop), <b>Copper-releasing</b> (CuT, Cu7, Multiload 375), and <b>Hormone-releasing</b> (Progestasert, LNG-20).",
+                bullets: [
+                    "Cu²⁺ ions suppress sperm motility and fertilising capacity; IUDs increase sperm phagocytosis.",
+                    "Hormone-releasing IUDs make the uterus unsuitable for implantation & cervix hostile to sperms.",
+                    "Lactational amenorrhea: Effective up to maximum 6 months post-parturition during intense lactation.",
+                    "Saheli (CDRI Lucknow): Non-steroidal, once-a-week oral pill with high contraceptive value & few side effects."
+                ],
+                trap: "NEET Trap: Condoms are the ONLY barrier method that also protects against STIs and HIV.",
+                svg: `<svg viewBox="0 0 360 220">
+      <rect width="360" height="220" fill="#fff"/>
+      <!-- Copper-T (NCERT Fig 3.2) -->
+      <rect x="65" y="32" width="80" height="10" rx="4" fill="#e2e8f0" stroke="#475569" stroke-width="2"/>
+      <rect x="100" y="38" width="10" height="110" rx="4" fill="#fdba74" stroke="#c2410c" stroke-width="2"/>
+      <!-- Copper coil wraps -->
+      <line x1="100" y1="55" x2="110" y2="55" stroke="#9a3412" stroke-width="2"/>
+      <line x1="100" y1="65" x2="110" y2="65" stroke="#9a3412" stroke-width="2"/>
+      <line x1="100" y1="75" x2="110" y2="75" stroke="#9a3412" stroke-width="2"/>
+      <line x1="100" y1="85" x2="110" y2="85" stroke="#9a3412" stroke-width="2"/>
+      <line x1="100" y1="95" x2="110" y2="95" stroke="#9a3412" stroke-width="2"/>
+      <line x1="100" y1="105" x2="110" y2="105" stroke="#9a3412" stroke-width="2"/>
+      <!-- Threads -->
+      <path d="M104,148 Q95,180 88,200 M106,148 Q115,180 122,200" fill="none" stroke="#334155" stroke-width="1.5"/>
+      <text x="105" y="22" font-size="11" font-weight="bold" text-anchor="middle" fill="#c2410c">Copper-T (CuT)</text>
+      <!-- Summary Boxes Right -->
+      <rect x="175" y="30" width="170" height="48" rx="8" fill="#f0fdfa" stroke="#0f766e" stroke-width="1.5"/>
+      <text x="185" y="48" font-size="10.5" font-weight="bold" fill="#0f766e">Non-medicated: Lippes loop</text>
+      <text x="185" y="65" font-size="10" fill="#334155">↑ Phagocytosis of sperms</text>
+
+      <rect x="175" y="88" width="170" height="48" rx="8" fill="#fff7ed" stroke="#c2410c" stroke-width="1.5"/>
+      <text x="185" y="106" font-size="10.5" font-weight="bold" fill="#c2410c">Cu IUDs: CuT, Cu7, Multiload 375</text>
+      <text x="185" y="123" font-size="10" fill="#334155">Cu²⁺ suppresses sperm motility</text>
+
+      <rect x="175" y="146" width="170" height="48" rx="8" fill="#eef2ff" stroke="#4338ca" stroke-width="1.5"/>
+      <text x="185" y="164" font-size="10.5" font-weight="bold" fill="#4338ca">Hormone: Progestasert, LNG-20</text>
+      <text x="185" y="181" font-size="10" fill="#334155">Hostile cervix &amp; anti-implantation</text>
+    </svg>`
+            },
+            {
+                ch: 3, chName: "Ch 3: Reproductive Health",
+                topic: "MTP, STIs & Surgical Sterilisation",
+                q: "State the safe period for MTP, name the three incurable viral STIs, and compare vasectomy vs tubectomy.",
+                ans: "<b>MTP</b> is considered relatively safe during the <b>first trimester (up to 12 weeks)</b> of pregnancy (legally permitted up to 24 weeks under specific grounds). Surgical sterilisation blocks gamete transport (poor reversibility).",
+                bullets: [
+                    "3 Incurable Viral STIs: Hepatitis-B, Genital herpes, and HIV (Mnemonic: HGH).",
+                    "Vasectomy: Small part of vas deferens removed/tied through scrotal incision.",
+                    "Tubectomy: Small part of fallopian tube removed/tied through abdomen or vagina.",
+                    "Amniocentesis: Prenatal chromosomal test; legally banned for sex determination."
+                ],
+                trap: "NEET Trap: In vasectomy, semen is still ejaculated (seminal plasma from accessory glands), it just lacks sperms!",
+                svg: `<svg viewBox="0 0 360 220">
+      <rect width="360" height="220" fill="#fff"/>
+      <!-- Vasectomy Left -->
+      <text x="90" y="22" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#0f766e">Vasectomy (Male)</text>
+      <ellipse cx="90" cy="165" rx="22" ry="28" fill="#fecdd3" stroke="#be123c" stroke-width="2"/>
+      <path d="M90,137 L90,112 M90,92 L90,50" stroke="#334155" stroke-width="3"/>
+      <!-- Cut & Tied Ends -->
+      <line x1="82" y1="112" x2="98" y2="112" stroke="#dc2626" stroke-width="3"/>
+      <line x1="82" y1="92" x2="98" y2="92" stroke="#dc2626" stroke-width="3"/>
+      <text x="105" y="105" font-size="10" font-weight="bold" fill="#dc2626">Vas deferens cut &amp; tied</text>
+
+      <!-- Divider -->
+      <line x1="180" y1="15" x2="180" y2="205" stroke="#cbd5e1" stroke-dasharray="4,4"/>
+
+      <!-- Tubectomy Right -->
+      <text x="270" y="22" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#0f766e">Tubectomy (Female)</text>
+      <path d="M245,95 L295,95 L280,155 L260,155 Z" fill="#fde68a" stroke="#b45309" stroke-width="2"/>
+      <!-- Fallopian tubes cut -->
+      <path d="M245,95 L228,85 M215,82 C200,82 195,105 205,115" fill="none" stroke="#334155" stroke-width="3"/>
+      <path d="M295,95 L312,85 M325,82 C340,82 345,105 335,115" fill="none" stroke="#334155" stroke-width="3"/>
+      <circle cx="222" cy="83" r="4" fill="#dc2626"/><circle cx="318" cy="83" r="4" fill="#dc2626"/>
+      <text x="270" y="65" font-size="10" font-weight="bold" text-anchor="middle" fill="#dc2626">Fallopian tubes cut &amp; tied</text>
+    </svg>`
+            },
+            {
+                ch: 3, chName: "Ch 3: Reproductive Health",
+                topic: "Assisted Reproductive Technologies (ART)",
+                q: "Distinguish ZIFT, IUT, GIFT, ICSI, and AI/IUI based on fertilisation site and transfer stage.",
+                ans: "ART helps infertile couples have children: <b>IVF-ET</b> involves fertilisation outside the body followed by embryo transfer via <b>ZIFT</b> or <b>IUT</b>.",
+                bullets: [
+                    "ZIFT (Zygote Intra Fallopian Transfer): Zygote or early embryo up to 8 blastomeres → Fallopian tube.",
+                    "IUT (Intra Uterine Transfer): Embryo with MORE than 8 blastomeres → Uterus.",
+                    "GIFT (Gamete Intra Fallopian Transfer): Donor ovum transferred into fallopian tube (in-vivo fertilisation).",
+                    "ICSI: Sperm directly injected into ovum in lab; AI/IUI: Semen introduced into vagina/uterus."
+                ],
+                trap: "NEET Trap: GIFT and AI/IUI involve IN-VIVO fertilisation; ZIFT, IUT, and ICSI involve IN-VITRO fertilisation.",
+                svg: `<svg viewBox="0 0 360 220">
+      <rect width="360" height="220" fill="#fff"/>
+      <!-- Comparison Diagram -->
+      <rect x="15" y="20" width="155" height="82" rx="10" fill="#f0fdfa" stroke="#0f766e" stroke-width="2"/>
+      <text x="92" y="42" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#0f766e">ZIFT (In-vitro)</text>
+      <text x="92" y="62" font-size="10.5" text-anchor="middle" fill="#0f172a">≤ 8 blastomeres</text>
+      <text x="92" y="82" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#115e59">→ Fallopian Tube</text>
+
+      <rect x="190" y="20" width="155" height="82" rx="10" fill="#eff6ff" stroke="#1d4ed8" stroke-width="2"/>
+      <text x="267" y="42" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#1d4ed8">IUT (In-vitro)</text>
+      <text x="267" y="62" font-size="10.5" text-anchor="middle" fill="#0f172a">&gt; 8 blastomeres</text>
+      <text x="267" y="82" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#1e40af">→ Uterus</text>
+
+      <rect x="15" y="118" width="155" height="82" rx="10" fill="#fefce8" stroke="#a16207" stroke-width="2"/>
+      <text x="92" y="140" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#a16207">GIFT (In-vivo)</text>
+      <text x="92" y="160" font-size="10.5" text-anchor="middle" fill="#0f172a">Donor Ovum (Gamete)</text>
+      <text x="92" y="180" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#854d0e">→ Fallopian Tube</text>
+
+      <rect x="190" y="118" width="155" height="82" rx="10" fill="#fdf2f8" stroke="#be185d" stroke-width="2"/>
+      <text x="267" y="140" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#be185d">ICSI (In-vitro)</text>
+      <text x="267" y="160" font-size="10.5" text-anchor="middle" fill="#0f172a">Direct Sperm Injection</text>
+      <text x="267" y="180" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#9d174d">→ Inside Ovum</text>
+    </svg>`
+            },
+
+            // CHAPTER 4
+            {
+                ch: 4, chName: "Ch 4: Principles of Inheritance & Variation",
+                topic: "Mendelian Crosses & Non-Mendelian Deviations",
+                q: "Compare F2 ratios of monohybrid, dihybrid, incomplete dominance, and ABO blood group inheritance.",
+                ans: "<b>Monohybrid F2:</b> Phenotype 3:1, Genotype 1:2:1 (Test cross = 1:1). <b>Dihybrid F2:</b> Phenotype 9:3:3:1 (Test cross = 1:1:1:1). In <b>Incomplete dominance</b> (Snapdragon), F2 phenotype & genotype ratios are both <b>1:2:1</b>.",
+                bullets: [
+                    "ABO Blood Group (Gene I): 3 alleles (Iᴬ, Iᴮ, i) → 6 genotypes & 4 phenotypes.",
+                    "Iᴬ and Iᴮ show Co-dominance (IᴬIᴮ = AB blood group); both are completely dominant over i.",
+                    "Pleiotropy: Single gene affects multiple traits (Phenylketonuria; Pea starch synthesis).",
+                    "Polygenic inheritance: Additive effect of multiple genes + environment (Human skin colour, height)."
+                ],
+                trap: "NEET Trap: Multiple alleles (like ABO) can ONLY be detected in a population, never in a single diploid individual.",
+                svg: `<svg viewBox="0 0 360 220">
+      <rect width="360" height="220" fill="#fff"/>
+      <!-- Punnett Square Tt x Tt -->
+      <text x="95" y="22" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#0f766e">Monohybrid Cross (Tt × Tt)</text>
+      <rect x="45" y="45" width="50" height="50" fill="#dcfce7" stroke="#0f766e" stroke-width="2"/>
+      <rect x="95" y="45" width="50" height="50" fill="#f0fdfa" stroke="#0f766e" stroke-width="2"/>
+      <rect x="45" y="95" width="50" height="50" fill="#f0fdfa" stroke="#0f766e" stroke-width="2"/>
+      <rect x="95" y="95" width="50" height="50" fill="#fef3c7" stroke="#0f766e" stroke-width="2"/>
+      <text x="70" y="38" font-size="12" font-weight="bold" text-anchor="middle">T</text>
+      <text x="120" y="38" font-size="12" font-weight="bold" text-anchor="middle">t</text>
+      <text x="32" y="75" font-size="12" font-weight="bold" text-anchor="middle">T</text>
+      <text x="32" y="125" font-size="12" font-weight="bold" text-anchor="middle">t</text>
+      <text x="70" y="75" font-size="13" font-weight="bold" text-anchor="middle">TT</text>
+      <text x="120" y="75" font-size="13" font-weight="bold" text-anchor="middle">Tt</text>
+      <text x="70" y="125" font-size="13" font-weight="bold" text-anchor="middle">Tt</text>
+      <text x="120" y="125" font-size="13" font-weight="bold" text-anchor="middle">tt</text>
+      <text x="95" y="168" font-size="11" font-weight="bold" text-anchor="middle" fill="#0f172a">Phenotype = 3 : 1</text>
+      <text x="95" y="185" font-size="11" font-weight="bold" text-anchor="middle" fill="#0f766e">Genotype = 1 : 2 : 1</text>
+
+      <!-- ABO Summary Box -->
+      <rect x="175" y="35" width="170" height="155" rx="10" fill="#f8fafc" stroke="#64748b" stroke-width="1.5"/>
+      <text x="260" y="55" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#1e293b">ABO Blood Group (Gene I)</text>
+      <text x="188" y="80" font-size="10.5" fill="#0f172a">• Group A: IᴬIᴬ, Iᴬi</text>
+      <text x="188" y="102" font-size="10.5" fill="#0f172a">• Group B: IᴮIᴮ, Iᴮi</text>
+      <text x="188" y="124" font-size="10.5" font-weight="bold" fill="#be123c">• Group AB: IᴬIᴮ (Co-dominant)</text>
+      <text x="188" y="146" font-size="10.5" fill="#0f172a">• Group O: ii (Recessive)</text>
+      <text x="260" y="175" font-size="10" font-weight="bold" text-anchor="middle" fill="#0f766e">6 Genotypes | 4 Phenotypes</text>
+    </svg>`
+            },
+            {
+                ch: 4, chName: "Ch 4: Principles of Inheritance & Variation",
+                topic: "Sex Determination & Haplodiploidy",
+                q: "Contrast sex determination in Humans, Birds (ZZ-ZW), and Honeybees (Haplodiploidy).",
+                ans: "In <b>Humans (XX-XY)</b> and <i>Drosophila</i>, males are heterogametic (determine child's sex). In <b>Birds (ZZ-ZW)</b>, <b>females are heterogametic</b> (egg determines sex).",
+                bullets: [
+                    "Honeybee Haplodiploidy: Fertilised egg (2n = 32) → Female (Queen/Worker).",
+                    "Unfertilised egg (n = 16) develops via parthenogenesis → Male (Drone).",
+                    "Male honeybees produce sperms by MITOSIS; they have NO father and CANNOT have sons, but have a grandfather and grandsons!"
+                ],
+                trap: "NEET Trap: In birds, females produce two types of gametes (Z and W), whereas males are homogametic (ZZ).",
+                svg: `<svg viewBox="0 0 360 220">
+      <rect width="360" height="220" fill="#fff"/>
+      <text x="180" y="22" font-size="12" font-weight="bold" text-anchor="middle" fill="#0f766e">Haplodiploid Sex Determination in Honeybee</text>
+      <!-- Parents -->
+      <rect x="45" y="38" width="95" height="32" rx="6" fill="#fce7f3" stroke="#be185d" stroke-width="2"/>
+      <text x="92" y="58" font-size="11" font-weight="bold" text-anchor="middle">Female (2n = 32)</text>
+      <rect x="220" y="38" width="95" height="32" rx="6" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/>
+      <text x="267" y="58" font-size="11" font-weight="bold" text-anchor="middle">Male (n = 16)</text>
+      <!-- Gametes -->
+      <text x="92" y="88" font-size="10" font-weight="bold" text-anchor="middle" fill="#be185d">↓ Meiosis</text>
+      <text x="267" y="88" font-size="10" font-weight="bold" text-anchor="middle" fill="#1d4ed8">↓ Mitosis</text>
+      <circle cx="65" cy="112" r="16" fill="#fbcfe8" stroke="#be185d" stroke-width="1.5"/><text x="65" y="116" font-size="10" font-weight="bold" text-anchor="middle">n=16</text>
+      <circle cx="120" cy="112" r="16" fill="#fbcfe8" stroke="#be185d" stroke-width="1.5"/><text x="120" y="116" font-size="10" font-weight="bold" text-anchor="middle">n=16</text>
+      <circle cx="267" cy="112" r="16" fill="#bfdbfe" stroke="#1d4ed8" stroke-width="1.5"/><text x="267" y="116" font-size="10" font-weight="bold" text-anchor="middle">n=16</text>
+      <!-- Offspring -->
+      <path d="M65,128 L65,165" stroke="#be185d" stroke-width="2"/>
+      <text x="55" y="150" font-size="9.5" font-weight="bold" text-anchor="end" fill="#be185d">Parthenogenesis</text>
+      <rect x="20" y="168" width="95" height="32" rx="6" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/>
+      <text x="67" y="188" font-size="11" font-weight="bold" text-anchor="middle">Male Drone (n=16)</text>
+
+      <path d="M120,128 L195,165 M267,128 L195,165" stroke="#0f766e" stroke-width="2"/>
+      <text x="195" y="145" font-size="9.5" font-weight="bold" text-anchor="middle" fill="#0f766e">Fertilisation</text>
+      <rect x="145" y="168" width="110" height="32" rx="6" fill="#fce7f3" stroke="#be185d" stroke-width="2"/>
+      <text x="200" y="188" font-size="11" font-weight="bold" text-anchor="middle">Female (2n = 32)</text>
+    </svg>`
+            },
+            {
+                ch: 4, chName: "Ch 4: Principles of Inheritance & Variation",
+                topic: "Mendelian & Chromosomal Genetic Disorders",
+                q: "Detail the molecular basis of Sickle-cell anaemia and Thalassemia, and distinguish Down, Klinefelter, and Turner syndromes.",
+                ans: "<b>Sickle-cell anaemia</b> (Autosomal recessive, Chr 11): Single base substitution <b>GAG → GUG</b> replaces <b>Glutamic acid with Valine</b> at 6th position of β-globin chain (qualitative defect).",
+                bullets: [
+                    "Thalassemia (Quantitative defect): α-Thalassemia on Chr 16 (HBA1, HBA2); β-Thalassemia on Chr 11 (HBB).",
+                    "Down's Syndrome: Trisomy 21 (47 chromosomes); short stature, furrowed tongue, single palm crease.",
+                    "Klinefelter's Syndrome: 47, XXY (sterile male with overall masculine development + gynaecomastia).",
+                    "Turner's Syndrome: 45, XO (sterile female with rudimentary ovaries, webbed neck, lack of secondary sexual characters)."
+                ],
+                trap: "NEET Trap: Crossing over occurs in Pachytene of Prophase I; chiasmata become visible in Diplotene.",
+                svg: `<svg viewBox="0 0 360 220">
+      <rect width="360" height="220" fill="#fff"/>
+      <!-- Sickle-Cell Mutation Visual -->
+      <text x="180" y="20" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#0f766e">Sickle-Cell Anaemia Point Mutation (Chr 11)</text>
+      <rect x="20" y="32" width="150" height="75" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+      <text x="95" y="50" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#166534">Normal Hbᴬ Gene</text>
+      <text x="95" y="68" font-size="10.5" text-anchor="middle">DNA: CTC → mRNA: <b>GAG</b></text>
+      <text x="95" y="88" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#15803d">6th AA: Glutamic Acid (Glu)</text>
+
+      <rect x="190" y="32" width="150" height="75" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="1.5"/>
+      <text x="265" y="50" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#991b1b">Mutant Hbˢ Gene</text>
+      <text x="265" y="68" font-size="10.5" text-anchor="middle">DNA: CAC → mRNA: <b>GUG</b></text>
+      <text x="265" y="88" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#dc2626">6th AA: Valine (Val)</text>
+
+      <!-- Chromosomal Disorders Summary -->
+      <rect x="20" y="120" width="320" height="85" rx="8" fill="#f8fafc" stroke="#64748b" stroke-width="1.5"/>
+      <text x="180" y="138" font-size="11" font-weight="bold" text-anchor="middle" fill="#1e293b">Chromosomal Aneuploidies</text>
+      <text x="32" y="158" font-size="10.5" fill="#0f172a">• <b>Down's Syndrome:</b> 47 (+21 Trisomy) — Autosomal</text>
+      <text x="32" y="176" font-size="10.5" fill="#0f172a">• <b>Klinefelter's Syndrome:</b> 47 (XXY) — Sterile Male, Gynaecomastia</text>
+      <text x="32" y="194" font-size="10.5" fill="#0f172a">• <b>Turner's Syndrome:</b> 45 (XO) — Sterile Female, Rudimentary ovaries</text>
+    </svg>`
+            },
+
+            // CHAPTER 5
+            {
+                ch: 5, chName: "Ch 5: Molecular Basis of Inheritance",
+                topic: "DNA Structure, Nucleosome & Hershey-Chase Proof",
+                q: "State the dimensions of B-DNA, composition of a nucleosome, and Hershey-Chase experiment conclusions.",
+                ans: "<b>B-DNA (Watson & Crick):</b> Right-handed double helix, antiparallel strands, <b>10 bp/turn</b>, pitch = <b>3.4 nm</b>, distance between adjacent bp = <b>0.34 nm</b>, diameter = <b>2 nm</b>. A=T (2 H-bonds), G≡C (3 H-bonds).",
+                bullets: [
+                    "Nucleosome: 200 bp of negatively charged DNA wrapped around positively charged Histone octamer (2 each of H2A, H2B, H3, H4 — rich in Lysine & Arginine).",
+                    "Hershey & Chase (1952): Used bacteriophage T2 with ³²P (DNA entered bacteria) & ³⁵S (protein stayed in supernatant) → unequivocal proof DNA is genetic material."
+                ],
+                trap: "NEET Trap: Euchromatin is loosely packed & transcriptionally active; Heterochromatin is densely packed & inactive.",
+                svg: `<svg viewBox="0 0 360 220">
+      <rect width="360" height="220" fill="#fff"/>
+      <!-- Nucleosome Diagram (NCERT Fig 5.4a) -->
+      <ellipse cx="115" cy="110" rx="45" ry="42" fill="#fde68a" stroke="#b45309" stroke-width="2.5"/>
+      <text x="115" y="106" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#78350f">Histone</text>
+      <text x="115" y="120" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#78350f">Octamer</text>
+      <!-- DNA double wrap -->
+      <path d="M25,130 C55,130 62,65 115,65 C168,65 172,145 115,145 C65,145 62,82 115,82 C162,82 168,158 205,158" fill="none" stroke="#0f766e" stroke-width="4"/>
+      <!-- H1 Histone -->
+      <rect x="155" y="125" width="16" height="28" rx="4" fill="#fca5a5" stroke="#b91c1c" stroke-width="1.8"/>
+      <!-- Labels -->
+      <line x1="50" y1="125" x2="50" y2="50" stroke="#334155"/><text x="50" y="44" font-size="11" font-weight="bold" text-anchor="middle" fill="#0f766e">DNA (200 bp)</text>
+      <line x1="171" y1="139" x2="225" y2="139" stroke="#334155"/><text x="230" y="142" font-size="11" font-weight="bold" fill="#b91c1c">H1 histone</text>
+      <line x1="145" y1="90" x2="225" y2="75" stroke="#334155"/><text x="230" y="78" font-size="11" font-weight="bold" fill="#b45309">Core of 8 histone molecules</text>
+      <text x="180" y="205" font-size="11" font-weight="bold" text-anchor="middle">Nucleosome Unit of Chromatin</text>
+    </svg>`
+            },
+            {
+                ch: 5, chName: "Ch 5: Molecular Basis of Inheritance",
+                topic: "DNA Replication & Transcription (RNA Polymerases)",
+                q: "Explain replication polarity, eukaryotic RNA polymerases I/II/III, and post-transcriptional processing.",
+                ans: "<b>Meselson & Stahl (1958)</b> proved semiconservative replication using ¹⁵NH₄Cl in <i>E. coli</i>. DNA polymerase synthesises strictly in <b>5' → 3'</b> direction (leading strand continuous; lagging strand discontinuous <b>Okazaki fragments</b> joined by DNA ligase).",
+                bullets: [
+                    "Eukaryotic RNA Pol I: rRNAs (28S, 18S, 5.8S); RNA Pol II: hnRNA (mRNA precursor); RNA Pol III: tRNA, 5S rRNA, snRNAs.",
+                    "hnRNA processing: Capping (methyl guanosine triphosphate at 5'), Splicing (introns removed, exons joined), Tailing (200–300 adenylate residues at 3')."
+                ],
+                trap: "NEET Trap: The 'coding strand' (5'→3') is NOT transcribed—it has the exact same sequence as mRNA (with T instead of U).",
+                svg: `<svg viewBox="0 0 360 220">
+      <rect width="360" height="220" fill="#fff"/>
+      <!-- Replication Fork (NCERT Fig 5.8) -->
+      <line x1="40" y1="110" x2="155" y2="110" stroke="#1e293b" stroke-width="3.5"/>
+      <line x1="155" y1="110" x2="285" y2="35" stroke="#1e293b" stroke-width="3.5"/>
+      <line x1="155" y1="110" x2="285" y2="185" stroke="#1e293b" stroke-width="3.5"/>
+      <!-- Polarity labels -->
+      <text x="25" y="102" font-size="11" font-weight="bold">3'</text>
+      <text x="25" y="124" font-size="11" font-weight="bold">5'</text>
+      <text x="292" y="38" font-size="11" font-weight="bold">5'</text>
+      <text x="292" y="188" font-size="11" font-weight="bold">3'</text>
+      <!-- Leading Strand (Continuous) -->
+      <line x1="168" y1="112" x2="275" y2="173" stroke="#0f766e" stroke-width="3"/>
+      <polygon points="168,112 178,112 174,120" fill="#0f766e"/>
+      <text x="195" y="168" font-size="10.5" font-weight="bold" fill="#0f766e">Continuous (5'→3')</text>
+      <!-- Lagging Strand (Discontinuous Okazaki) -->
+      <line x1="175" y1="90" x2="200" y2="75" stroke="#d97706" stroke-width="3"/>
+      <line x1="212" y1="68" x2="238" y2="53" stroke="#d97706" stroke-width="3"/>
+      <line x1="250" y1="46" x2="275" y2="31" stroke="#d97706" stroke-width="3"/>
+      <text x="195" y="45" font-size="10.5" font-weight="bold" fill="#b45309">Discontinuous (Okazaki)</text>
+      <text x="180" y="210" font-size="11" font-weight="bold" text-anchor="middle">DNA Replication Fork (5' → 3' Synthesis)</text>
+    </svg>`
+            },
+            {
+                ch: 5, chName: "Ch 5: Molecular Basis of Inheritance",
+                topic: "Genetic Code, Lac Operon & DNA Fingerprinting",
+                q: "State key features of the genetic code, roles of lac operon genes (z, y, a), and basis of DNA fingerprinting.",
+                ans: "<b>Genetic code:</b> Triplet, unambiguous, degenerate, comma-less, nearly universal. Start codon = <b>AUG</b> (Methionine); Stop codons = <b>UAA, UAG, UGA</b>.",
+                bullets: [
+                    "Lac Operon (Jacob & Monod): z → β-galactosidase (lactose → glucose + galactose); y → Permease; a → Transacetylase.",
+                    "Lactose / Allolactose acts as INDUCER (inactivates repressor protein so RNA pol transcribes structural genes).",
+                    "HGP: 3164.7 million bp; <2% codes for proteins; Largest gene = Dystrophin; Chr 1 has most genes (2968), Chr Y fewest (231).",
+                    "DNA Fingerprinting (Alec Jeffreys): Based on VNTR (Variable Number of Tandem Repeats) polymorphism + Southern blotting."
+                ],
+                trap: "NEET Trap: Glucose and Galactose CANNOT act as inducers for the lac operon—only lactose/allolactose can.",
+                svg: `<svg viewBox="0 0 360 220">
+      <rect width="360" height="220" fill="#fff"/>
+      <text x="180" y="20" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#0f766e">Lac Operon (In Presence of Inducer = Lactose)</text>
+      <!-- Operon Bar -->
+      <rect x="20" y="45" width="35" height="32" fill="#e2e8f0" stroke="#334155" stroke-width="1.5"/><text x="37" y="65" font-size="11" font-weight="bold" text-anchor="middle">p</text>
+      <rect x="55" y="45" width="40" height="32" fill="#fecdd3" stroke="#be123c" stroke-width="1.5"/><text x="75" y="65" font-size="11" font-weight="bold" text-anchor="middle">i</text>
+      <rect x="95" y="45" width="35" height="32" fill="#e2e8f0" stroke="#334155" stroke-width="1.5"/><text x="112" y="65" font-size="11" font-weight="bold" text-anchor="middle">p</text>
+      <rect x="130" y="45" width="35" height="32" fill="#fde68a" stroke="#b45309" stroke-width="1.5"/><text x="147" y="65" font-size="11" font-weight="bold" text-anchor="middle">o</text>
+      <rect x="165" y="45" width="60" height="32" fill="#bbf7d0" stroke="#15803d" stroke-width="1.5"/><text x="195" y="65" font-size="11" font-weight="bold" text-anchor="middle">z</text>
+      <rect x="225" y="45" width="55" height="32" fill="#a7f3d0" stroke="#0f766e" stroke-width="1.5"/><text x="252" y="65" font-size="11" font-weight="bold" text-anchor="middle">y</text>
+      <rect x="280" y="45" width="55" height="32" fill="#99f6e4" stroke="#115e59" stroke-width="1.5"/><text x="307" y="65" font-size="11" font-weight="bold" text-anchor="middle">a</text>
+      <!-- Repressor + Inducer -->
+      <path d="M75,77 L75,112" stroke="#be123c" stroke-width="1.5"/>
+      <rect x="42" y="114" width="66" height="26" rx="6" fill="#ffe4e6" stroke="#be123c" stroke-width="1.5"/>
+      <text x="75" y="131" font-size="9.5" font-weight="bold" text-anchor="middle" fill="#be123c">Repressor</text>
+      <circle cx="125" cy="127" r="12" fill="#fde047" stroke="#854d0e" stroke-width="1.5"/>
+      <text x="125" y="150" font-size="9.5" font-weight="bold" text-anchor="middle" fill="#854d0e">Inducer binds</text>
+      <!-- Transcription output -->
+      <path d="M165,92 L330,92" stroke="#15803d" stroke-width="2.5"/>
+      <text x="250" y="110" font-size="10" font-weight="bold" text-anchor="middle" fill="#15803d">lac mRNA Transcription ON</text>
+      <text x="250" y="132" font-size="9.5" text-anchor="middle">z: β-galactosidase | y: Permease | a: Transacetylase</text>
+    </svg>`
+            },
+
+            // CHAPTER 6
+            {
+                ch: 6, chName: "Ch 6: Evolution",
+                topic: "Miller's Experiment, Homology & Analogy",
+                q: "State the conditions of S.L. Miller's experiment and distinguish homologous vs analogous organs with plant examples.",
+                ans: "<b>S.L. Miller (1953)</b> created electric discharge (800°C) in a closed flask containing <b>CH₄, H₂, NH₃ (2:1:2) and water vapour</b> (<b>NO free O₂</b>) and observed formation of <b>amino acids</b>.",
+                bullets: [
+                    "Homologous (Divergent evolution): Same anatomy/origin, different function — Forelimbs of whale, bat, cheetah, human; Thorns of Bougainvillea & tendrils of Cucurbita.",
+                    "Analogous (Convergent evolution): Different origin, same function — Wings of butterfly & bird; Eye of octopus & mammal; Sweet potato (root) & Potato (stem).",
+                    "Adaptive radiation: Darwin's finches & Australian marsupials."
+                ],
+                trap: "NEET Trap: Primitive Earth atmosphere was reducing and had ZERO free molecular oxygen (O₂).",
+                svg: `<svg viewBox="0 0 360 220">
+      <rect width="360" height="220" fill="#fff"/>
+      <!-- Homologous vs Analogous Split -->
+      <rect x="15" y="22" width="155" height="175" rx="10" fill="#f0fdfa" stroke="#0f766e" stroke-width="2"/>
+      <text x="92" y="44" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#0f766e">HOMOLOGOUS</text>
+      <text x="92" y="62" font-size="10" font-weight="bold" text-anchor="middle" fill="#115e59">(Divergent Evolution)</text>
+      <text x="92" y="84" font-size="10" text-anchor="middle">Same origin, different function</text>
+      <line x1="30" y1="95" x2="155" y2="95" stroke="#99f6e4"/>
+      <text x="25" y="114" font-size="9.5">• Forelimbs: Human, Bat, Whale</text>
+      <text x="25" y="134" font-size="9.5">• Vertebrate hearts &amp; brains</text>
+      <text x="25" y="154" font-size="9.5" font-weight="bold" fill="#0f766e">• Thorn (Bougainvillea) &amp;</text>
+      <text x="32" y="168" font-size="9.5" font-weight="bold" fill="#0f766e">Tendril (Cucurbita)</text>
+
+      <rect x="190" y="22" width="155" height="175" rx="10" fill="#fffbeb" stroke="#d97706" stroke-width="2"/>
+      <text x="267" y="44" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#b45309">ANALOGOUS</text>
+      <text x="267" y="62" font-size="10" font-weight="bold" text-anchor="middle" fill="#92400e">(Convergent Evolution)</text>
+      <text x="267" y="84" font-size="10" text-anchor="middle">Different origin, same function</text>
+      <line x1="205" y1="95" x2="330" y2="95" stroke="#fde68a"/>
+      <text x="200" y="114" font-size="9.5">• Wings: Butterfly &amp; Bird</text>
+      <text x="200" y="134" font-size="9.5">• Eye: Octopus &amp; Mammal</text>
+      <text x="200" y="154" font-size="9.5" font-weight="bold" fill="#b45309">• Sweet potato (root) &amp;</text>
+      <text x="207" y="168" font-size="9.5" font-weight="bold" fill="#b45309">Potato (stem)</text>
+    </svg>`
+            },
+            {
+                ch: 6, chName: "Ch 6: Evolution",
+                topic: "Natural Selection Types & Hardy-Weinberg Principle",
+                q: "Compare stabilising, directional, and disruptive selection curves and state the Hardy-Weinberg equations.",
+                ans: "<b>Hardy-Weinberg Principle:</b> Allele frequencies remain constant across generations (<b>p + q = 1</b>; <b>p² + 2pq + q² = 1</b>) unless disturbed by 5 factors: <b>Gene migration, Genetic drift, Mutation, Recombination, Natural selection</b>.",
+                bullets: [
+                    "Stabilising selection: More individuals acquire mean character value (peak gets higher & narrower).",
+                    "Directional selection: Peak shifts in one direction (e.g., Industrial melanism in Biston betularia).",
+                    "Disruptive selection: More individuals acquire peripheral character values at both ends (two peaks).",
+                    "Founder effect: Original drifted population becomes founders in a new habitat."
+                ],
+                trap: "NEET Trap: Hugo de Vries proposed 'Saltation' (single-step large mutation) which is random & directionless, unlike Darwin's small directional variations.",
+                svg: `<svg viewBox="0 0 360 220">
+      <rect width="360" height="220" fill="#fff"/>
+      <!-- 3 Natural Selection Curves (NCERT Fig 6.8) -->
+      <!-- Stabilising -->
+      <path d="M20,165 Q65,165 72,55 Q79,165 124,165" fill="#ccfbf1" stroke="#0f766e" stroke-width="2.5"/>
+      <line x1="15" y1="165" x2="128" y2="165" stroke="#334155" stroke-width="1.5"/>
+      <text x="72" y="185" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#0f766e">Stabilising</text>
+      <text x="72" y="199" font-size="9" text-anchor="middle">Mean favoured</text>
+
+      <!-- Directional -->
+      <path d="M138,165 Q185,162 208,65 Q225,130 238,165" fill="#fef3c7" stroke="#d97706" stroke-width="2.5"/>
+      <line x1="135" y1="165" x2="242" y2="165" stroke="#334155" stroke-width="1.5"/>
+      <text x="188" y="185" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#b45309">Directional</text>
+      <text x="188" y="199" font-size="9" text-anchor="middle">Peak shifts 1 side</text>
+
+      <!-- Disruptive -->
+      <path d="M250,165 Q268,75 280,75 Q292,75 300,155 Q308,75 320,75 Q332,75 348,165" fill="#fce7f3" stroke="#be185d" stroke-width="2.5"/>
+      <line x1="248" y1="165" x2="350" y2="165" stroke="#334155" stroke-width="1.5"/>
+      <text x="299" y="185" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#be185d">Disruptive</text>
+      <text x="299" y="199" font-size="9" text-anchor="middle">Both extremes</text>
+      <text x="180" y="22" font-size="11.5" font-weight="bold" text-anchor="middle">Types of Natural Selection (p² + 2pq + q² = 1)</text>
+    </svg>`
+            },
+            {
+                ch: 6, chName: "Ch 6: Evolution",
+                topic: "Human Evolution Timeline",
+                q: "Arrange the stages of human evolution in chronological order with their cranial capacities and key traits.",
+                ans: "<b>Dryopithecus</b> (ape-like) &amp; <b>Ramapithecus</b> (man-like, ~15 mya) → <b>Australopithecus</b> (2 mya, East African grasslands) → <b>Homo habilis</b> → <b>Homo erectus</b> → <b>Neanderthal man</b> → <b>Homo sapiens</b>.",
+                bullets: [
+                    "Homo habilis: 650–800 cc cranial capacity; first human-like hominid; tool-maker; probably did NOT eat meat.",
+                    "Homo erectus: 900 cc (fossils in Java, 1.5 mya); probably ate meat.",
+                    "Neanderthal man: 1400 cc; lived in East & Central Asia (1,00,000–40,000 yrs back); used hides & buried their dead.",
+                    "Homo sapiens: Arose in Africa (75,000–10,000 yrs ago during Ice Age); agriculture ~10,000 yrs ago."
+                ],
+                trap: "NEET Trap: Homo habilis did NOT eat meat; Homo erectus ate meat; Neanderthals buried their dead.",
+                svg: `<svg viewBox="0 0 360 220">
+      <rect width="360" height="220" fill="#fff"/>
+      <text x="180" y="20" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#0f766e">Human Evolution Cranial Capacity &amp; Timeline</text>
+      <!-- Timeline Steps -->
+      <rect x="20" y="34" width="320" height="26" rx="5" fill="#f1f5f9" stroke="#64748b"/>
+      <text x="30" y="51" font-size="10" font-weight="bold">1. Dryopithecus &amp; Ramapithecus (15 mya) — Hairy, walked like gorillas</text>
+
+      <rect x="20" y="66" width="320" height="26" rx="5" fill="#f0fdfa" stroke="#0f766e"/>
+      <text x="30" y="83" font-size="10" font-weight="bold">2. Australopithecus (2 mya) — Hunted with stone weapons, ate fruit</text>
+
+      <rect x="20" y="98" width="320" height="26" rx="5" fill="#ecfdf5" stroke="#15803d"/>
+      <text x="30" y="115" font-size="10" font-weight="bold">3. Homo habilis (650–800 cc) — First tool maker, no meat</text>
+
+      <rect x="20" y="130" width="320" height="26" rx="5" fill="#fefce8" stroke="#ca8a04"/>
+      <text x="30" y="147" font-size="10" font-weight="bold">4. Homo erectus (900 cc, Java, 1.5 mya) — Ate meat</text>
+
+      <rect x="20" y="162" width="320" height="26" rx="5" fill="#fff7ed" stroke="#ea580c"/>
+      <text x="30" y="179" font-size="10" font-weight="bold">5. Neanderthal man (1400 cc) — Used hides, buried dead</text>
+
+      <text x="180" y="208" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#be185d">→ 6. Homo sapiens (Modern Humans, 75,000–10,000 yrs ago)</text>
+    </svg>`
+            },
+
+            // CHAPTER 7
+            {
+                ch: 7, chName: "Ch 7: Human Health and Disease",
+                topic: "Innate & Acquired Immunity and Antibody Structure",
+                q: "List the 4 innate immunity barriers, describe the H2L2 antibody structure, and classify primary vs secondary lymphoid organs.",
+                ans: "<b>Innate barriers:</b> Physical (skin, mucus), Physiological (stomach HCl, saliva, tears), Cellular (PMNL-neutrophils, monocytes, NK cells), Cytokine (<b>Interferons</b> from virus-infected cells).",
+                bullets: [
+                    "Antibody (H₂L₂): 2 heavy + 2 light peptide chains linked by disulphide bonds; antigen-binding site at N-terminal.",
+                    "IgA (in colostrum) & IgG (crosses placenta) = Natural Passive Immunity; Antivenom = Artificial Passive Immunity.",
+                    "Primary lymphoid organs: Bone marrow & Thymus (lymphocyte maturation); Secondary: Spleen, Lymph nodes, MALT (50% of lymphoid tissue)."
+                ],
+                trap: "NEET Trap: B-lymphocytes mediate Humoral immunity (antibodies); T-lymphocytes mediate Cell-Mediated Immunity (CMI — responsible for graft rejection).",
+                svg: `<svg viewBox="0 0 360 220">
+      <rect width="360" height="220" fill="#fff"/>
+      <!-- Y-Shaped Antibody (NCERT Fig 7.4) -->
+      <!-- Heavy Chains -->
+      <path d="M125,180 L125,105 L80,55" fill="none" stroke="#0f766e" stroke-width="7" stroke-linecap="round"/>
+      <path d="M145,180 L145,105 L190,55" fill="none" stroke="#0f766e" stroke-width="7" stroke-linecap="round"/>
+      <!-- Light Chains -->
+      <path d="M105,105 L65,62" fill="none" stroke="#f59e0b" stroke-width="6" stroke-linecap="round"/>
+      <path d="M165,105 L205,62" fill="none" stroke="#f59e0b" stroke-width="6" stroke-linecap="round"/>
+      <!-- Disulphide bonds -->
+      <line x1="125" y1="125" x2="145" y2="125" stroke="#dc2626" stroke-width="2.5"/>
+      <line x1="125" y1="135" x2="145" y2="135" stroke="#dc2626" stroke-width="2.5"/>
+      <line x1="92" y1="88" x2="105" y2="78" stroke="#dc2626" stroke-width="2.5"/>
+      <line x1="178" y1="88" x2="165" y2="78" stroke="#dc2626" stroke-width="2.5"/>
+      <!-- Labels -->
+      <text x="65" y="42" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#be123c">Antigen binding site</text>
+      <text x="205" y="42" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#be123c">Antigen binding site</text>
+      <line x1="200" y1="70" x2="240" y2="70" stroke="#334155"/><text x="245" y="73" font-size="11" font-weight="bold" fill="#b45309">Light chain (L)</text>
+      <line x1="148" y1="150" x2="240" y2="120" stroke="#334155"/><text x="245" y="123" font-size="11" font-weight="bold" fill="#0f766e">Heavy chain (H)</text>
+      <line x1="145" y1="130" x2="240" y2="165" stroke="#334155"/><text x="245" y="168" font-size="11" font-weight="bold" fill="#dc2626">-S-S- Disulphide bond</text>
+      <text x="135" y="205" font-size="11" font-weight="bold" text-anchor="middle">Antibody Molecule (H₂L₂)</text>
+    </svg>`
+            },
+            {
+                ch: 7, chName: "Ch 7: Human Health and Disease",
+                topic: "Malaria Life Cycle & Common Pathogens",
+                q: "Trace the Plasmodium life cycle and name causative pathogens of Typhoid, Pneumonia, Filariasis, and Ringworm.",
+                ans: "<b>Malaria (<i>Plasmodium falciparum</i> = malignant):</b> Infectious stage = <b>Sporozoite</b> (in female <i>Anopheles</i> salivary glands) → multiplies in human <b>liver</b> → attacks <b>RBCs</b> → RBC rupture releases toxic <b>haemozoin</b> (chills &amp; fever every 3–4 days).",
+                bullets: [
+                    "Gametocytes form in human RBCs → taken up by female Anopheles → fertilisation & development in mosquito GUT.",
+                    "Typhoid: Salmonella typhi (Widal test); Pneumonia: Streptococcus pneumoniae (infects alveoli).",
+                    "Common cold: Rhinoviruses (nose/respiratory passage, NOT lungs); Filariasis: Wuchereria (lymphatic vessels).",
+                    "Ringworm: Fungi — Microsporum, Trichophyton, Epidermophyton (Mnemonic: MET)."
+                ],
+                trap: "NEET Trap: Sexual phase (gametogony/fertilisation) of Plasmodium occurs in the MOSQUITO'S gut, while asexual phase occurs in humans.",
+                svg: `<svg viewBox="0 0 360 220">
+      <rect width="360" height="220" fill="#fff"/>
+      <text x="180" y="20" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#0f766e">Plasmodium Life Cycle (Two Hosts)</text>
+      <rect x="20" y="40" width="95" height="45" rx="8" fill="#fef3c7" stroke="#b45309" stroke-width="2"/>
+      <text x="67" y="60" font-size="10.5" font-weight="bold" text-anchor="middle">Sporozoites</text>
+      <text x="67" y="75" font-size="9.5" text-anchor="middle">(Infectious stage)</text>
+
+      <path d="M115,62 L135,62" stroke="#0f766e" stroke-width="2"/>
+      <rect x="135" y="40" width="90" height="45" rx="8" fill="#f0fdfa" stroke="#0f766e" stroke-width="2"/>
+      <text x="180" y="60" font-size="10.5" font-weight="bold" text-anchor="middle">Human Liver</text>
+      <text x="180" y="75" font-size="9.5" text-anchor="middle">(Asexual cycle)</text>
+
+      <path d="M225,62 L245,62" stroke="#0f766e" stroke-width="2"/>
+      <rect x="245" y="40" width="95" height="45" rx="8" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+      <text x="292" y="60" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#991b1b">Human RBCs</text>
+      <text x="292" y="75" font-size="9" text-anchor="middle" fill="#dc2626">Haemozoin → Fever</text>
+
+      <path d="M292,85 L292,125" stroke="#dc2626" stroke-width="2"/>
+      <rect x="220" y="128" width="120" height="45" rx="8" fill="#fce7f3" stroke="#be185d" stroke-width="2"/>
+      <text x="280" y="148" font-size="10.5" font-weight="bold" text-anchor="middle">Gametocytes</text>
+      <text x="280" y="163" font-size="9.5" text-anchor="middle">(Formed in RBCs)</text>
+
+      <path d="M220,150 L175,150" stroke="#be185d" stroke-width="2"/>
+      <rect x="20" y="128" width="155" height="45" rx="8" fill="#eef2ff" stroke="#4338ca" stroke-width="2"/>
+      <text x="97" y="148" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#3730a3">Female Anopheles Gut</text>
+      <text x="97" y="163" font-size="9.5" text-anchor="middle">Fertilisation → Salivary gland</text>
+      <path d="M67,128 L67,85" stroke="#4338ca" stroke-width="2"/>
+    </svg>`
+            },
+            {
+                ch: 7, chName: "Ch 7: Human Health and Disease",
+                topic: "HIV/AIDS, Cancer & Drugs",
+                q: "Explain HIV replication in macrophages, cancer metastasis, and sources of Opioids, Cannabinoids, and Cocaine.",
+                ans: "<b>HIV (Retrovirus with ssRNA):</b> Enters <b>macrophages</b> (HIV factory) → <b>Reverse transcriptase</b> makes viral DNA → integrates into host genome → destroys <b>Helper T-lymphocytes (Tᴴ)</b>. Diagnosed by <b>ELISA</b>.",
+                bullets: [
+                    "Cancer: Loss of contact inhibition; Malignant tumours show Metastasis (spread to distant sites via blood).",
+                    "Opioids (Heroin/Smack): Diacetylmorphine from Papaver somniferum (poppy latex); CNS depressant.",
+                    "Cannabinoids (Marijuana, Hashish, Charas, Ganja): Cannabis sativa; affects cardiovascular system.",
+                    "Coca alkaloid / Cocaine (Coke/Crack): Erythroxylum coca; interferes with dopamine transport."
+                ],
+                trap: "NEET Trap: Macrophages survive HIV replication and act as an 'HIV factory', whereas Helper T-cells get lysed/depleted.",
+                svg: `<svg viewBox="0 0 360 220">
+      <rect width="360" height="220" fill="#fff"/>
+      <text x="180" y="20" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#be123c">Retrovirus (HIV) Replication Cycle</text>
+      <rect x="20" y="38" width="90" height="42" rx="8" fill="#ffe4e6" stroke="#be123c" stroke-width="2"/>
+      <text x="65" y="57" font-size="10.5" font-weight="bold" text-anchor="middle">Viral RNA</text>
+      <text x="65" y="71" font-size="9" text-anchor="middle">(Enters Macrophage)</text>
+
+      <path d="M110,59 L135,59" stroke="#be123c" stroke-width="2"/>
+      <rect x="135" y="38" width="95" height="42" rx="8" fill="#fef3c7" stroke="#b45309" stroke-width="2"/>
+      <text x="182" y="57" font-size="10.5" font-weight="bold" text-anchor="middle">Viral DNA</text>
+      <text x="182" y="71" font-size="8.8" text-anchor="middle">Reverse Transcriptase</text>
+
+      <path d="M230,59 L250,59" stroke="#b45309" stroke-width="2"/>
+      <rect x="250" y="38" width="90" height="42" rx="8" fill="#f0fdfa" stroke="#0f766e" stroke-width="2"/>
+      <text x="295" y="57" font-size="10" font-weight="bold" text-anchor="middle">Host Genome</text>
+      <text x="295" y="71" font-size="9" text-anchor="middle">Integrates &amp; replicates</text>
+
+      <rect x="20" y="102" width="320" height="96" rx="8" fill="#f8fafc" stroke="#64748b" stroke-width="1.5"/>
+      <text x="180" y="122" font-size="11" font-weight="bold" text-anchor="middle" fill="#1e293b">Key Drug Sources &amp; Targets</text>
+      <text x="32" y="142" font-size="10">• <b>Heroin (Smack):</b> Papaver somniferum → Opioid receptors (CNS/GI)</text>
+      <text x="32" y="160" font-size="10">• <b>Cannabinoids:</b> Cannabis sativa → Brain receptors (Cardiovascular)</text>
+      <text x="32" y="178" font-size="10">• <b>Cocaine:</b> Erythroxylum coca → Blocks Dopamine transport (Euphoria)</text>
+    </svg>`
+            },
+
+            // CHAPTER 8
+            {
+                ch: 8, chName: "Ch 8: Microbes in Human Welfare",
+                topic: "Industrial Bioactive Molecules, Acids & Cheeses",
+                q: "Match the industrial microbes with their organic acids, bioactive molecules (Streptokinase, Cyclosporin A, Statins), and cheeses.",
+                ans: "<b>Bioactive Trio:</b> <b>Streptokinase</b> (<i>Streptococcus</i> — clot buster), <b>Cyclosporin A</b> (<i>Trichoderma polysporum</i> — immunosuppressant), <b>Statins</b> (<i>Monascus purpureus</i> — cholesterol-lowering).",
+                bullets: [
+                    "Organic acids: Aspergillus niger (Citric acid), Acetobacter aceti (Acetic acid), Clostridium butylicum (Butyric acid), Lactobacillus (Lactic acid).",
+                    "Swiss cheese: Large holes due to CO₂ produced by bacterium Propionibacterium sharmanii.",
+                    "Roquefort cheese: Ripened by growing a specific fungus on them.",
+                    "LAB (Lactobacillus): Converts milk to curd and boosts Vitamin B₁₂."
+                ],
+                trap: "NEET Trap: Statins act by competitively inhibiting the enzyme responsible for synthesis of cholesterol (HMG-CoA reductase).",
+                svg: `<svg viewBox="0 0 360 220">
+      <rect width="360" height="220" fill="#fff"/>
+      <text x="180" y="20" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#0f766e">High-Yield Bioactive Molecules &amp; Acids</text>
+      <rect x="18" y="34" width="324" height="32" rx="6" fill="#f0fdfa" stroke="#0f766e"/>
+      <text x="28" y="54" font-size="10.5"><b>Streptococcus</b> (Bacterium) → <b>Streptokinase</b> (Clot buster)</text>
+
+      <rect x="18" y="72" width="324" height="32" rx="6" fill="#fefce8" stroke="#ca8a04"/>
+      <text x="28" y="92" font-size="10.5"><b>Trichoderma polysporum</b> (Fungus) → <b>Cyclosporin A</b> (Immunosuppressant)</text>
+
+      <rect x="18" y="110" width="324" height="32" rx="6" fill="#fdf2f8" stroke="#be185d"/>
+      <text x="28" y="130" font-size="10.5"><b>Monascus purpureus</b> (Yeast) → <b>Statins</b> (Lowers blood cholesterol)</text>
+
+      <rect x="18" y="148" width="324" height="54" rx="6" fill="#f8fafc" stroke="#64748b"/>
+      <text x="28" y="168" font-size="10">• <b>Aspergillus niger</b> (Fungus) → Citric acid | <b>Acetobacter aceti</b> → Acetic acid</text>
+      <text x="28" y="188" font-size="10">• <b>Propionibacterium sharmanii</b> → Swiss cheese (large CO₂ holes)</text>
+    </svg>`
+            },
+            {
+                ch: 8, chName: "Ch 8: Microbes in Human Welfare",
+                topic: "Sewage Treatment (STP), Biogas, Biocontrol & Biofertilisers",
+                q: "Differentiate primary vs secondary sewage treatment, define BOD, and name key biocontrol agents and biofertilisers.",
+                ans: "<b>Primary treatment:</b> Physical filtration &amp; sedimentation. <b>Secondary treatment:</b> Biological aeration where aerobic microbial <b>flocs</b> (bacteria + fungal filaments) consume organic matter and reduce <b>BOD</b>.",
+                bullets: [
+                    "Activated sludge is pumped into anaerobic sludge digesters → Methanogens produce Biogas (CH₄, H₂S, CO₂).",
+                    "Biocontrol: Bacillus thuringiensis (caterpillars), Trichoderma (root fungi), Baculoviruses / Nucleopolyhedrovirus (species-specific IPM).",
+                    "Biofertilisers: Rhizobium (symbiotic), Azospirillum & Azotobacter (free-living), Mycorrhiza / Glomus (absorbs Phosphorus), Cyanobacteria (Anabaena, Nostoc)."
+                ],
+                trap: "NEET Trap: Greater the BOD of waste water, MORE is its polluting potential (and lower the dissolved oxygen).",
+                svg: `<svg viewBox="0 0 360 220">
+      <rect width="360" height="220" fill="#fff"/>
+      <text x="180" y="20" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#0f766e">Secondary Sewage Treatment &amp; Biogas Flow</text>
+      <rect x="15" y="45" width="75" height="50" rx="8" fill="#e2e8f0" stroke="#475569" stroke-width="1.5"/>
+      <text x="52" y="67" font-size="10" font-weight="bold" text-anchor="middle">Primary</text>
+      <text x="52" y="81" font-size="9.5" text-anchor="middle">Effluent</text>
+
+      <path d="M90,70 L108,70" stroke="#0f766e" stroke-width="2"/>
+      <rect x="108" y="45" width="85" height="50" rx="8" fill="#ccfbf1" stroke="#0f766e" stroke-width="2"/>
+      <text x="150" y="66" font-size="10" font-weight="bold" text-anchor="middle">Aeration Tank</text>
+      <text x="150" y="81" font-size="9" text-anchor="middle">Flocs → ↓ BOD</text>
+
+      <path d="M193,70 L211,70" stroke="#0f766e" stroke-width="2"/>
+      <rect x="211" y="45" width="70" height="50" rx="8" fill="#fef3c7" stroke="#b45309" stroke-width="1.5"/>
+      <text x="246" y="66" font-size="10" font-weight="bold" text-anchor="middle">Settling</text>
+      <text x="246" y="81" font-size="9" text-anchor="middle">Act. Sludge</text>
+
+      <path d="M281,70 L296,70" stroke="#b45309" stroke-width="2"/>
+      <rect x="296" y="45" width="52" height="50" rx="8" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"/>
+      <text x="322" y="66" font-size="9.5" font-weight="bold" text-anchor="middle">Digester</text>
+      <text x="322" y="81" font-size="9" text-anchor="middle">Biogas</text>
+
+      <rect x="15" y="115" width="333" height="82" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+      <text x="180" y="135" font-size="11" font-weight="bold" text-anchor="middle" fill="#166534">Key Biofertilisers &amp; Biocontrol</text>
+      <text x="28" y="155" font-size="10">• <b>Mycorrhiza (Glomus):</b> Absorbs Phosphorus, resists root-borne pathogens</text>
+      <text x="28" y="174" font-size="10">• <b>Baculoviruses (NPV):</b> Narrow-spectrum, species-specific insecticidal biocontrol</text>
+    </svg>`
+            },
+
+            // CHAPTER 9
+            {
+                ch: 9, chName: "Ch 9: Biotechnology: Principles & Processes",
+                topic: "Restriction Enzymes & Cloning Vector (pBR322)",
+                q: "Explain EcoRI palindromic cutting, pBR322 selectable markers, and blue-white insertional inactivation.",
+                ans: "<b>Restriction endonucleases</b> cut DNA at specific palindromic sites. <b>EcoRI</b> cuts between <b>G and A</b> in <b>5'-GAATTC-3'</b> leaving overhanging <b>sticky ends</b>.",
+                bullets: [
+                    "pBR322 features: ori (copy number), selectable markers (ampᴿ and tetᴿ), and single cloning sites.",
+                    "Insertion at BamHI site inactivates tetᴿ gene (recombinants grow in ampicillin but die in tetracycline).",
+                    "Blue-white screening: Insertional inactivation of β-galactosidase → Recombinants = WHITE colonies; Non-recombinants = BLUE colonies."
+                ],
+                trap: "NEET Trap: In EcoRI, 'R' stands for strain RY13 and Roman numeral 'I' indicates the order in which the enzyme was isolated.",
+                svg: `<svg viewBox="0 0 360 220">
+      <rect width="360" height="220" fill="#fff"/>
+      <!-- pBR322 Plasmid Map (NCERT Fig 9.4) -->
+      <circle cx="130" cy="115" r="72" fill="none" stroke="#0f766e" stroke-width="8"/>
+      <!-- ampR arc -->
+      <path d="M62,90 A72,72 0 0,1 115,44" fill="none" stroke="#dc2626" stroke-width="10"/>
+      <!-- tetR arc -->
+      <path d="M168,54 A72,72 0 0,1 198,138" fill="none" stroke="#2563eb" stroke-width="10"/>
+      <!-- ori arc -->
+      <path d="M135,187 A72,72 0 0,1 75,160" fill="none" stroke="#d97706" stroke-width="10"/>
+      <text x="130" y="118" font-size="12" font-weight="bold" text-anchor="middle" fill="#0f172a">pBR322</text>
+      <!-- Labels -->
+      <text x="55" y="55" font-size="10.5" font-weight="bold" fill="#dc2626">ampᴿ (PvuI, PstI)</text>
+      <text x="130" y="30" font-size="10" font-weight="bold" text-anchor="middle">EcoRI, ClaI, HindIII</text>
+      <text x="210" y="95" font-size="10.5" font-weight="bold" fill="#2563eb">tetᴿ (BamHI, SalI)</text>
+      <text x="208" y="148" font-size="10" font-weight="bold" fill="#475569">rop</text>
+      <text x="90" y="205" font-size="11" font-weight="bold" text-anchor="middle" fill="#b45309">ori (Origin of replication)</text>
+    </svg>`
+            },
+            {
+                ch: 9, chName: "Ch 9: Biotechnology: Principles & Processes",
+                topic: "Gel Electrophoresis, PCR & Bioreactors",
+                q: "State the principle of agarose gel electrophoresis, the three steps of PCR, and bioreactor functions.",
+                ans: "<b>Gel Electrophoresis:</b> Negatively charged DNA moves through agarose matrix towards <b>anode (+)</b>; smaller fragments travel farther. Stained with <b>Ethidium bromide</b> &amp; viewed under UV light (extracted via <b>elution</b>).",
+                bullets: [
+                    "PCR (Kary Mullis): 1. Denaturation (94°C) → 2. Annealing (primers bind) → 3. Extension (thermostable Taq polymerase from Thermus aquaticus). n cycles = 2ⁿ copies.",
+                    "Competent host: Ca²⁺ ions + Heat shock (Ice → 42°C → Ice). Plant vector: Disarmed Ti plasmid (Agrobacterium).",
+                    "Bioreactors (100–1000 L): Provide optimal temp, pH, substrate, salts, vitamins, and oxygen (sparged stirred-tank increases O₂ transfer area)."
+                ],
+                trap: "NEET Trap: DNA fragments separate solely according to their SIZE through the sieving effect of agarose gel.",
+                svg: `<svg viewBox="0 0 360 220">
+      <rect width="360" height="220" fill="#fff"/>
+      <!-- Gel Electrophoresis (NCERT Fig 9.3) -->
+      <rect x="30" y="25" width="160" height="170" rx="6" fill="#f1f5f9" stroke="#334155" stroke-width="2"/>
+      <!-- Wells -->
+      <rect x="45" y="38" width="22" height="10" fill="#1e293b"/>
+      <rect x="80" y="38" width="22" height="10" fill="#1e293b"/>
+      <rect x="115" y="38" width="22" height="10" fill="#1e293b"/>
+      <rect x="150" y="38" width="22" height="10" fill="#1e293b"/>
+      <!-- DNA Bands -->
+      <rect x="45" y="165" width="22" height="6" fill="#ea580c"/>
+      <rect x="80" y="110" width="22" height="6" fill="#ea580c"/>
+      <rect x="80" y="165" width="22" height="6" fill="#ea580c"/>
+      <rect x="115" y="75" width="22" height="6" fill="#ea580c"/>
+      <rect x="115" y="110" width="22" height="6" fill="#ea580c"/>
+      <rect x="115" y="165" width="22" height="6" fill="#ea580c"/>
+      <rect x="150" y="140" width="22" height="6" fill="#ea580c"/>
+      <!-- Migration Arrow -->
+      <line x1="210" y1="45" x2="210" y2="175" stroke="#0f766e" stroke-width="2.5"/>
+      <polygon points="210,182 204,170 216,170" fill="#0f766e"/>
+      <text x="222" y="50" font-size="10.5" font-weight="bold">Cathode (–) Wells</text>
+      <text x="222" y="95" font-size="10" fill="#475569">Larger fragments</text>
+      <text x="222" y="145" font-size="10" font-weight="bold" fill="#ea580c">Smaller fragments</text>
+      <text x="222" y="180" font-size="10.5" font-weight="bold" fill="#0f766e">Anode (+)</text>
+    </svg>`
+            },
+
+            // CHAPTER 10
+            {
+                ch: 10, chName: "Ch 10: Biotechnology & Its Applications",
+                topic: "Bt Cotton & RNA Interference (RNAi)",
+                q: "Explain how Bt toxin kills insects without harming Bacillus, and how RNAi protects tobacco against Meloidogyne incognita.",
+                ans: "<b>Bt Cotton (<i>Bacillus thuringiensis</i>):</b> Produces inactive <b>protoxin</b> crystals; insect gut's <b>alkaline pH</b> solubilises crystals → active toxin binds midgut epithelial cells → creates pores → cell swelling &amp; lysis.",
+                bullets: [
+                    "Cry genes: cryIAc & cryIIAb control cotton bollworms; cryIAb controls corn borer.",
+                    "RNAi (Cellular defence in all eukaryotes): Silences specific mRNA via complementary dsRNA.",
+                    "Agrobacterium introduces nematode-specific genes into tobacco producing both sense & anti-sense RNA → forms dsRNA → silences Meloidogyne incognita mRNA."
+                ],
+                trap: "NEET Trap: Bt protoxin is activated specifically by the ALKALINE pH of the insect gut (not acidic!).",
+                svg: `<svg viewBox="0 0 360 220">
+      <rect width="360" height="220" fill="#fff"/>
+      <text x="180" y="20" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#0f766e">Bt Toxin Action &amp; Cry Genes</text>
+      <rect x="20" y="38" width="95" height="48" rx="8" fill="#f1f5f9" stroke="#475569" stroke-width="1.5"/>
+      <text x="67" y="59" font-size="10" font-weight="bold" text-anchor="middle">Bt Bacterium</text>
+      <text x="67" y="74" font-size="9.5" text-anchor="middle">Inactive protoxin</text>
+
+      <path d="M115,62 L133,62" stroke="#0f766e" stroke-width="2"/>
+      <rect x="133" y="38" width="95" height="48" rx="8" fill="#fef3c7" stroke="#b45309" stroke-width="1.5"/>
+      <text x="180" y="59" font-size="10" font-weight="bold" text-anchor="middle" fill="#b45309">Alkaline Gut pH</text>
+      <text x="180" y="74" font-size="9.5" text-anchor="middle">Solubilises toxin</text>
+
+      <path d="M228,62 L245,62" stroke="#dc2626" stroke-width="2"/>
+      <rect x="245" y="38" width="95" height="48" rx="8" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"/>
+      <text x="292" y="59" font-size="10" font-weight="bold" text-anchor="middle" fill="#991b1b">Midgut Lysis</text>
+      <text x="292" y="74" font-size="9.5" text-anchor="middle">Pores → Insect dies</text>
+
+      <rect x="20" y="108" width="320" height="90" rx="8" fill="#f0fdfa" stroke="#0f766e" stroke-width="1.5"/>
+      <text x="180" y="128" font-size="11" font-weight="bold" text-anchor="middle" fill="#0f766e">Exam-Must Cry Genes &amp; RNAi</text>
+      <text x="32" y="148" font-size="10">• <b>cryIAc &amp; cryIIAb:</b> Control Cotton Bollworms</text>
+      <text x="32" y="166" font-size="10">• <b>cryIAb:</b> Controls Corn Borer</text>
+      <text x="32" y="184" font-size="10">• <b>RNAi:</b> Sense + Anti-sense RNA → dsRNA silences nematode mRNA</text>
+    </svg>`
+            },
+            {
+                ch: 10, chName: "Ch 10: Biotechnology & Its Applications",
+                topic: "Genetically Engineered Insulin, Gene Therapy & Diagnostics",
+                q: "Describe Eli Lilly's recombinant insulin synthesis, ADA gene therapy, and molecular diagnostic tools.",
+                ans: "<b>Pro-insulin</b> contains A, B, and C chains (C-peptide is removed during maturation). <b>Eli Lilly (1983)</b> prepared DNA sequences for <b>Chains A (21 aa) and B (30 aa)</b> separately in <i>E. coli</i> and joined them via <b>disulphide bonds</b>.",
+                bullets: [
+                    "Gene Therapy (1990 — 4-yr-old girl): Functional ADA cDNA introduced into lymphocytes (permanent cure requires bone marrow stem cell transfer at early embryonic stage).",
+                    "Molecular Diagnosis: PCR (amplifies low pathogen DNA/RNA), ELISA (antigen-antibody interaction), Autoradiography (mutated gene lacks complementary probe hybridisation).",
+                    "Transgenic cow Rosie (1997): Milk enriched with human α-lactalbumin (2.4 g/L); 95% of transgenic animals are mice; GEAC regulates GMOs in India."
+                ],
+                trap: "NEET Trap: Mature recombinant insulin has 51 amino acids (A + B chains) and does NOT contain the C-peptide.",
+                svg: `<svg viewBox="0 0 360 220">
+      <rect width="360" height="220" fill="#fff"/>
+      <!-- Proinsulin to Insulin Maturation (NCERT Fig 10.3) -->
+      <text x="180" y="20" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#0f766e">Maturation of Pro-insulin into Active Insulin</text>
+      <!-- Proinsulin -->
+      <path d="M55,55 L145,55" stroke="#0f766e" stroke-width="6" stroke-linecap="round"/>
+      <text x="100" y="45" font-size="10" font-weight="bold" text-anchor="middle" fill="#0f766e">A peptide (21 aa)</text>
+      <path d="M55,95 L145,95" stroke="#1d4ed8" stroke-width="6" stroke-linecap="round"/>
+      <text x="100" y="114" font-size="10" font-weight="bold" text-anchor="middle" fill="#1d4ed8">B peptide (30 aa)</text>
+      <!-- C peptide loop -->
+      <path d="M145,55 C175,55 175,95 145,95" fill="none" stroke="#94a3b8" stroke-width="4" stroke-dasharray="5,3"/>
+      <text x="185" y="78" font-size="10" font-weight="bold" fill="#64748b">C-peptide</text>
+      <!-- Disulphide bonds -->
+      <line x1="75" y1="55" x2="75" y2="95" stroke="#dc2626" stroke-width="2.5"/>
+      <line x1="125" y1="55" x2="125" y2="95" stroke="#dc2626" stroke-width="2.5"/>
+
+      <!-- Arrow to Mature Insulin -->
+      <text x="180" y="138" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#be123c">↓ C-peptide removed during maturation</text>
+      <path d="M75,158 L165,158" stroke="#0f766e" stroke-width="6" stroke-linecap="round"/>
+      <path d="M75,188 L165,188" stroke="#1d4ed8" stroke-width="6" stroke-linecap="round"/>
+      <line x1="95" y1="158" x2="95" y2="188" stroke="#dc2626" stroke-width="2.5"/>
+      <line x1="145" y1="158" x2="145" y2="188" stroke="#dc2626" stroke-width="2.5"/>
+      <text x="255" y="170" font-size="11" font-weight="bold" text-anchor="middle" fill="#0f172a">Mature Insulin (51 aa)</text>
+      <text x="255" y="186" font-size="9.5" text-anchor="middle" fill="#64748b">+ Free C-peptide</text>
+    </svg>`
+            },
+
+            // CHAPTER 11
+            {
+                ch: 11, chName: "Ch 11: Organisms and Populations",
+                topic: "Population Attributes & Age Pyramids",
+                q: "Write the population density equation and distinguish expanding, stable, and declining age pyramids.",
+                ans: "Population density at time t+1: <b>Nₜ₊₁ = Nₜ + [(B + I) – (D + E)]</b>, where Natality (B) &amp; Immigration (I) increase density, while Mortality (D) &amp; Emigration (E) decrease density.",
+                bullets: [
+                    "Expanding pyramid (Triangular, broad base): Pre-reproductive > Reproductive > Post-reproductive (growing population).",
+                    "Stable pyramid (Bell-shaped): Pre-reproductive ≈ Reproductive (zero population growth).",
+                    "Declining pyramid (Urn-shaped, narrow base): Pre-reproductive < Reproductive (shrinking population)."
+                ],
+                trap: "NEET Trap: Under normal conditions, births (B) and deaths (D) are the most important factors influencing population density; immigration (I) matters most when a new habitat is being colonised.",
+                svg: `<svg viewBox="0 0 360 220">
+      <rect width="360" height="220" fill="#fff"/>
+      <text x="180" y="20" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#0f766e">Age Pyramids for Human Population (NCERT Fig 11.1)</text>
+      <!-- Expanding -->
+      <rect x="48" y="65" width="34" height="22" fill="#fde68a" stroke="#b45309"/>
+      <rect x="35" y="87" width="60" height="24" fill="#99f6e4" stroke="#0f766e"/>
+      <rect x="20" y="111" width="90" height="26" fill="#0f766e"/>
+      <text x="65" y="156" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#0f766e">Expanding</text>
+
+      <!-- Stable -->
+      <rect x="163" y="65" width="34" height="22" fill="#fde68a" stroke="#b45309"/>
+      <rect x="148" y="87" width="64" height="24" fill="#99f6e4" stroke="#0f766e"/>
+      <rect x="146" y="111" width="68" height="26" fill="#0f766e"/>
+      <text x="180" y="156" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#1d4ed8">Stable</text>
+
+      <!-- Declining -->
+      <rect x="275" y="65" width="36" height="22" fill="#fde68a" stroke="#b45309"/>
+      <rect x="263" y="87" width="60" height="24" fill="#99f6e4" stroke="#0f766e"/>
+      <rect x="273" y="111" width="40" height="26" fill="#0f766e"/>
+      <text x="293" y="156" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#be185d">Declining</text>
+
+      <!-- Legend -->
+      <rect x="25" y="178" width="12" height="12" fill="#0f766e"/><text x="42" y="188" font-size="9.5">Pre-reproductive</text>
+      <rect x="135" y="178" width="12" height="12" fill="#99f6e4" stroke="#0f766e"/><text x="152" y="188" font-size="9.5">Reproductive</text>
+      <rect x="235" y="178" width="12" height="12" fill="#fde68a" stroke="#b45309"/><text x="252" y="188" font-size="9.5">Post-reproductive</text>
+    </svg>`
+            },
+            {
+                ch: 11, chName: "Ch 11: Organisms and Populations",
+                topic: "Exponential vs Logistic Growth Models",
+                q: "Compare Exponential and Verhulst-Pearl Logistic population growth equations and curves.",
+                ans: "<b>Exponential growth (Unlimited resources):</b> <b>dN/dt = rN</b> (Integral form: <b>Nₜ = N₀eʳᵗ</b>) → produces a <b>J-shaped curve</b>. <b>Logistic growth (Limited resources):</b> <b>dN/dt = rN [(K – N) / K]</b> → produces an <b>S-shaped (sigmoid) curve</b>.",
+                bullets: [
+                    "r = intrinsic rate of natural increase (vital index for biotic/abiotic impact on growth).",
+                    "K = Carrying capacity (maximum population size a habitat's resources can support).",
+                    "Since resources for most animal populations are finite, the logistic model is more realistic."
+                ],
+                trap: "NEET Trap: When N = K in the logistic equation, (K – N)/K becomes 0, so dN/dt = 0 (asymptote / zero growth).",
+                svg: `<svg viewBox="0 0 360 220">
+      <rect width="360" height="220" fill="#fff"/>
+      <!-- Axes -->
+      <line x1="45" y1="180" x2="335" y2="180" stroke="#334155" stroke-width="2"/>
+      <line x1="45" y1="25" x2="45" y2="180" stroke="#334155" stroke-width="2"/>
+      <!-- Carrying capacity K dashed line -->
+      <line x1="45" y1="55" x2="335" y2="55" stroke="#64748b" stroke-dasharray="5,4" stroke-width="1.5"/>
+      <text x="325" y="48" font-size="11" font-weight="bold" fill="#475569">K (Carrying capacity)</text>
+      <!-- J-shaped Exponential Curve -->
+      <path d="M48,172 Q125,168 165,30" fill="none" stroke="#dc2626" stroke-width="2.8"/>
+      <text x="155" y="25" font-size="10.5" font-weight="bold" fill="#dc2626">J-curve: dN/dt = rN</text>
+      <!-- S-shaped Logistic Curve -->
+      <path d="M48,174 C130,174 175,60 325,57" fill="none" stroke="#0f766e" stroke-width="3"/>
+      <text x="245" y="95" font-size="10.5" font-weight="bold" fill="#0f766e">S-curve (Logistic)</text>
+      <text x="245" y="110" font-size="9.5" font-weight="bold" fill="#115e59">dN/dt = rN[(K–N)/K]</text>
+      <text x="190" y="202" font-size="11" font-weight="bold" text-anchor="middle">Time (t) →</text>
+      <text x="20" y="105" font-size="11" font-weight="bold" transform="rotate(-90 20,105)" text-anchor="middle">Density (N)</text>
+    </svg>`
+            },
+            {
+                ch: 11, chName: "Ch 11: Organisms and Populations",
+                topic: "Interspecific Population Interactions",
+                q: "Give the (+, –, 0) sign conventions and classic NCERT examples for all six population interactions.",
+                ans: "<b>Mutualism (+/+)</b>, <b>Competition (–/–)</b>, <b>Predation (+/–)</b>, <b>Parasitism (+/–)</b>, <b>Commensalism (+/0)</b>, and <b>Amensalism (–/0)</b>.",
+                bullets: [
+                    "Mutualism (+/+): Lichens, Mycorrhiza, Fig & Wasp, Ophrys (Mediterranean orchid) & Bumblebee (sexual deceit).",
+                    "Competition (–/–): Flamingoes & resident fishes (South American lakes); Gause's Competitive Exclusion vs MacArthur's Resource Partitioning.",
+                    "Predation (+/–): Starfish Pisaster (keystone predator); Monarch butterfly (distasteful chemical from weed).",
+                    "Parasitism (+/–): Human liver fluke (2 intermediate hosts: snail & fish), Cuscuta, Brood parasitism (Cuckoo & Crow).",
+                    "Commensalism (+/0): Orchid on mango, Barnacles on whale, Cattle egret & cattle, Clown fish & sea anemone."
+                ],
+                trap: "NEET Trap: Competition can occur even when resources are abundant (interference competition).",
+                svg: `<svg viewBox="0 0 360 220">
+      <rect width="360" height="220" fill="#fff"/>
+      <text x="180" y="20" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#0f766e">Population Interactions Matrix</text>
+      <!-- 6 Cards Grid -->
+      <rect x="18" y="34" width="155" height="52" rx="8" fill="#dcfce7" stroke="#15803d"/>
+      <text x="95" y="52" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#166534">Mutualism (+ / +)</text>
+      <text x="95" y="70" font-size="9.5" text-anchor="middle">Fig–Wasp, Ophrys–Bee</text>
+
+      <rect x="187" y="34" width="155" height="52" rx="8" fill="#fee2e2" stroke="#dc2626"/>
+      <text x="264" y="52" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#991b1b">Competition (– / –)</text>
+      <text x="264" y="70" font-size="9.5" text-anchor="middle">Flamingoes &amp; Fishes</text>
+
+      <rect x="18" y="94" width="155" height="52" rx="8" fill="#fef3c7" stroke="#d97706"/>
+      <text x="95" y="112" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#92400e">Predation (+ / –)</text>
+      <text x="95" y="130" font-size="9.5" text-anchor="middle">Pisaster starfish, Monarch</text>
+
+      <rect x="187" y="94" width="155" height="52" rx="8" fill="#fce7f3" stroke="#be185d"/>
+      <text x="264" y="112" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#9d174d">Parasitism (+ / –)</text>
+      <text x="264" y="130" font-size="9.5" text-anchor="middle">Cuscuta, Cuckoo–Crow</text>
+
+      <rect x="18" y="154" width="155" height="52" rx="8" fill="#e0f2fe" stroke="#0284c7"/>
+      <text x="95" y="172" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#0369a1">Commensalism (+ / 0)</text>
+      <text x="95" y="190" font-size="9.5" text-anchor="middle">Cattle egret, Clown fish</text>
+
+      <rect x="187" y="154" width="155" height="52" rx="8" fill="#f1f5f9" stroke="#475569"/>
+      <text x="264" y="172" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#334155">Amensalism (– / 0)</text>
+      <text x="264" y="190" font-size="9.5" text-anchor="middle">Penicillium &amp; Bacteria</text>
+    </svg>`
+            },
+
+            // CHAPTER 12
+            {
+                ch: 12, chName: "Ch 12: Ecosystem",
+                topic: "Productivity & Five Steps of Decomposition",
+                q: "Define GPP, NPP, and list the five sequential steps of decomposition with factors affecting its rate.",
+                ans: "<b>NPP = GPP – R</b> (Respiration losses). Total biosphere NPP = <b>170 billion tons</b> (dry weight); oceans contribute only <b>55 billion tons</b> despite covering 70% surface.",
+                bullets: [
+                    "5 Decomposition Steps (Mnemonic: F-L-C-H-M): Fragmentation (earthworm) → Leaching → Catabolism (bacterial/fungal enzymes) → Humification (forms dark amorphous humus) → Mineralisation.",
+                    "Faster decomposition: Detritus rich in nitrogen & water-soluble sugars; warm & moist aerobic environment.",
+                    "Slower decomposition: Detritus rich in lignin & chitin; low temperature & anaerobiosis."
+                ],
+                trap: "NEET Trap: Humification and mineralisation occur DURING decomposition in the soil—humus is colloidal and highly resistant to microbial action.",
+                svg: `<svg viewBox="0 0 360 220">
+      <rect width="360" height="220" fill="#fff"/>
+      <text x="180" y="20" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#0f766e">Productivity Formula &amp; Decomposition Sequence</text>
+      <rect x="35" y="34" width="290" height="36" rx="8" fill="#f0fdfa" stroke="#0f766e" stroke-width="2"/>
+      <text x="180" y="57" font-size="12" font-weight="bold" text-anchor="middle" fill="#115e59">NPP = GPP – R   (170 B tons total | 55 B tons ocean)</text>
+
+      <!-- 5 Steps -->
+      <rect x="14" y="95" width="60" height="46" rx="6" fill="#fef3c7" stroke="#b45309"/>
+      <text x="44" y="116" font-size="9.5" font-weight="bold" text-anchor="middle">1. Fragmen-</text><text x="44" y="128" font-size="9.5" font-weight="bold" text-anchor="middle">tation</text>
+
+      <rect x="82" y="95" width="58" height="46" rx="6" fill="#e0f2fe" stroke="#0284c7"/>
+      <text x="111" y="122" font-size="9.5" font-weight="bold" text-anchor="middle">2. Leaching</text>
+
+      <rect x="148" y="95" width="64" height="46" rx="6" fill="#fce7f3" stroke="#be185d"/>
+      <text x="180" y="122" font-size="9.5" font-weight="bold" text-anchor="middle">3. Catabolism</text>
+
+      <rect x="220" y="95" width="62" height="46" rx="6" fill="#ede9fe" stroke="#6d28d9"/>
+      <text x="251" y="116" font-size="9.5" font-weight="bold" text-anchor="middle">4. Humifi-</text><text x="251" y="128" font-size="9.5" font-weight="bold" text-anchor="middle">cation</text>
+
+      <rect x="290" y="95" width="58" height="46" rx="6" fill="#dcfce7" stroke="#15803d"/>
+      <text x="319" y="116" font-size="9.5" font-weight="bold" text-anchor="middle">5. Minerali-</text><text x="319" y="128" font-size="9.5" font-weight="bold" text-anchor="middle">sation</text>
+
+      <text x="180" y="168" font-size="10" font-weight="bold" text-anchor="middle" fill="#15803d">Faster: Warm, Moist, O₂-rich, N &amp; Sugars</text>
+      <text x="180" y="186" font-size="10" font-weight="bold" text-anchor="middle" fill="#dc2626">Slower: Cold, Anaerobic, Lignin &amp; Chitin</text>
+    </svg>`
+            },
+            {
+                ch: 12, chName: "Ch 12: Ecosystem",
+                topic: "Energy Flow (10% Law) & Ecological Pyramids",
+                q: "State PAR capture efficiency, Lindeman's 10% law, and which ecological pyramids can be inverted.",
+                ans: "Plants capture only <b>2–10% of PAR</b> (Photosynthetically Active Radiation, which is &lt;50% of incident solar radiation). By <b>Lindeman's 10% law</b>, only 10% of energy transfers to each successive trophic level.",
+                bullets: [
+                    "Pyramid of Energy: ALWAYS upright (never inverted, because heat is lost at every step).",
+                    "Pyramid of Biomass: Upright in terrestrial; INVERTED in sea (small standing crop of phytoplankton supports large zooplankton).",
+                    "Pyramid of Number: Upright in grassland; INVERTED in a single large tree ecosystem."
+                ],
+                trap: "NEET Trap: Ecological pyramids do NOT accommodate food webs and give NO place to saprophytes/decomposers.",
+                svg: `<svg viewBox="0 0 360 220">
+      <rect width="360" height="220" fill="#fff"/>
+      <!-- Upright Energy Pyramid Left -->
+      <text x="95" y="20" font-size="11" font-weight="bold" text-anchor="middle" fill="#0f766e">Energy Pyramid (Always Upright)</text>
+      <polygon points="82,45 108,45 116,72 74,72" fill="#fde68a" stroke="#b45309"/><text x="95" y="63" font-size="9" font-weight="bold" text-anchor="middle">TC (10 J)</text>
+      <polygon points="74,72 116,72 132,102 58,102" fill="#bbf7d0" stroke="#15803d"/><text x="95" y="91" font-size="9" font-weight="bold" text-anchor="middle">SC (100 J)</text>
+      <polygon points="58,102 132,102 152,135 38,135" fill="#99f6e4" stroke="#0f766e"/><text x="95" y="122" font-size="9" font-weight="bold" text-anchor="middle">PC (1,000 J)</text>
+      <polygon points="38,135 152,135 175,172 15,172" fill="#0f766e"/><text x="95" y="157" font-size="9.5" font-weight="bold" text-anchor="middle" fill="#fff">Producers (10,000 J)</text>
+      <text x="95" y="192" font-size="9.5" font-weight="bold" text-anchor="middle">1,000,000 J Sunlight</text>
+
+      <!-- Inverted Sea Biomass Pyramid Right -->
+      <text x="268" y="20" font-size="11" font-weight="bold" text-anchor="middle" fill="#be185d">Sea Biomass (Inverted)</text>
+      <polygon points="205,55 331,55 312,112 224,112" fill="#fbcfe8" stroke="#be185d" stroke-width="1.5"/>
+      <text x="268" y="88" font-size="10" font-weight="bold" text-anchor="middle" fill="#831843">PC: Zooplankton (21 g/m²)</text>
+      <polygon points="224,112 312,112 292,165 244,165" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"/>
+      <text x="268" y="143" font-size="10" font-weight="bold" text-anchor="middle" fill="#0369a1">PP: Phytoplankton (4 g/m²)</text>
+    </svg>`
+            },
+
+            // CHAPTER 13
+            {
+                ch: 13, chName: "Ch 13: Biodiversity and Conservation",
+                topic: "Biodiversity Levels & Species-Area Relationship",
+                q: "Explain Alexander von Humboldt's Species-Area relationship and state India's share of global biodiversity.",
+                ans: "<b>Species-Area Relationship (Humboldt):</b> <b>S = CAᶻ</b> (On log scale: <b>log S = log C + Z log A</b>). For normal taxonomic groups/regions, slope <b>Z = 0.1 to 0.2</b>; for entire continents, <b>Z = 0.6 to 1.2</b> (frugivorous birds/mammals in tropical forests: <b>Z = 1.15</b>).",
+                bullets: [
+                    "3 Levels (Edward Wilson): Genetic (Rauwolfia vomitoria reserpine potency), Species, Ecological diversity.",
+                    "Robert May's global estimate: ~7 million species. >70% animals (Insects = >70% of animals); Fungi outnumber all vertebrates combined!",
+                    "India: 2.4% of world's land area, but 8.1% of global species diversity (1 of 12 mega-diversity countries)."
+                ],
+                trap: "NEET Trap: In the species-area graph, S = CAᶻ is a rectangular hyperbola, while log S = log C + Z log A is a straight line.",
+                svg: `<svg viewBox="0 0 360 220">
+      <rect width="360" height="220" fill="#fff"/>
+      <!-- Species-Area Curve (NCERT Fig 13.2) -->
+      <line x1="45" y1="180" x2="325" y2="180" stroke="#334155" stroke-width="2"/>
+      <line x1="45" y1="25" x2="45" y2="180" stroke="#334155" stroke-width="2"/>
+      <!-- Rectangular Hyperbola -->
+      <path d="M47,178 Q70,85 315,65" fill="none" stroke="#0f766e" stroke-width="3"/>
+      <text x="235" y="55" font-size="11" font-weight="bold" fill="#0f766e">S = CAᶻ (Hyperbola)</text>
+      <!-- Log-Log Straight Line -->
+      <line x1="55" y1="170" x2="295" y2="95" stroke="#d97706" stroke-width="2.5" stroke-dasharray="6,3"/>
+      <text x="215" y="138" font-size="10.5" font-weight="bold" fill="#b45309">log S = log C + Z log A</text>
+      <text x="215" y="154" font-size="9.5" fill="#475569">Normal Z = 0.1 – 0.2</text>
+      <text x="215" y="168" font-size="9.5" fill="#475569">Continent Z = 0.6 – 1.2</text>
+      <text x="185" y="202" font-size="11" font-weight="bold" text-anchor="middle">Area (A) →</text>
+      <text x="22" y="105" font-size="10.5" font-weight="bold" transform="rotate(-90 22,105)" text-anchor="middle">Species Richness (S)</text>
+    </svg>`
+            },
+            {
+                ch: 13, chName: "Ch 13: Biodiversity and Conservation",
+                topic: "The Evil Quartet & In-situ vs Ex-situ Conservation",
+                q: "Name the four causes of biodiversity loss (Evil Quartet), differentiate in-situ vs ex-situ conservation, and list India's 3 hotspots.",
+                ans: "<b>The Evil Quartet:</b> 1. <b>Habitat loss &amp; fragmentation</b> (most important), 2. <b>Over-exploitation</b> (Steller's sea cow, Passenger pigeon), 3. <b>Alien species invasions</b> (Nile perch in Lake Victoria, <i>Parthenium</i>, <i>Lantana</i>, <i>Eichhornia</i>, African catfish), 4. <b>Co-extinctions</b>.",
+                bullets: [
+                    "In-situ (On-site): 34 Biodiversity Hotspots globally (<2% land area, cut extinction by ~30%), Biosphere reserves, National parks, Wildlife sanctuaries, Sacred groves (Khasi & Jaintia hills).",
+                    "Three NCERT Indian Hotspots: Western Ghats & Sri Lanka, Indo-Burma, and Himalaya.",
+                    "Ex-situ (Off-site): Zoological parks, Botanical gardens, Wildlife safari parks, Seed banks, Cryopreservation (–196°C liquid N₂)."
+                ],
+                trap: "NEET Trap: NCERT explicitly lists THREE hotspots covering India's high-biodiversity regions (Western Ghats & Sri Lanka, Indo-Burma, Himalaya).",
+                svg: `<svg viewBox="0 0 360 220">
+      <rect width="360" height="220" fill="#fff"/>
+      <!-- In-situ vs Ex-situ Split -->
+      <rect x="15" y="20" width="158" height="182" rx="10" fill="#f0fdfa" stroke="#0f766e" stroke-width="2"/>
+      <text x="94" y="42" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#0f766e">IN-SITU (On-Site)</text>
+      <text x="94" y="58" font-size="9.5" text-anchor="middle">Protected in natural habitat</text>
+      <line x1="28" y1="68" x2="160" y2="68" stroke="#99f6e4"/>
+      <text x="25" y="88" font-size="9.5" font-weight="bold">• 34 Global Hotspots (&lt;2% area)</text>
+      <text x="25" y="106" font-size="9.5" fill="#115e59">  1. Western Ghats &amp; Sri Lanka</text>
+      <text x="25" y="122" font-size="9.5" fill="#115e59">  2. Indo-Burma</text>
+      <text x="25" y="138" font-size="9.5" fill="#115e59">  3. Himalaya</text>
+      <text x="25" y="158" font-size="9.5">• Biosphere reserves, Natl. parks</text>
+      <text x="25" y="176" font-size="9.5">• Sacred groves (Meghalaya, etc.)</text>
+
+      <rect x="187" y="20" width="158" height="182" rx="10" fill="#eff6ff" stroke="#1d4ed8" stroke-width="2"/>
+      <text x="266" y="42" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#1d4ed8">EX-SITU (Off-Site)</text>
+      <text x="266" y="58" font-size="9.5" text-anchor="middle">Protected outside natural habitat</text>
+      <line x1="200" y1="68" x2="332" y2="68" stroke="#bfdbfe"/>
+      <text x="198" y="92" font-size="10">• Zoological parks</text>
+      <text x="198" y="114" font-size="10">• Botanical gardens</text>
+      <text x="198" y="136" font-size="10">• Wildlife safari parks</text>
+      <text x="198" y="158" font-size="10">• Seed banks &amp; Tissue culture</text>
+      <text x="198" y="180" font-size="10" font-weight="bold" fill="#1e40af">• Cryopreservation (–196°C N₂)</text>
+    </svg>`
+            }
+        ];
+
+        const container = document.getElementById('cardsContainer');
+
+        function renderCards(filter = 'all') {
+            container.innerHTML = '';
+            flashcards.forEach((card, idx) => {
+                if (filter !== 'all' && String(card.ch) !== filter) return;
+                const cardNum = String(idx + 1).padStart(2, '0');
+                const div = document.createElement('div');
+                div.className = 'card-wrapper';
+                div.innerHTML = `
+      <div class="card revealed" onclick="this.classList.toggle('revealed')">
+        <div class="card-front">
+          <div>
+            <div class="badge-row">
+              <span class="card-num">CARD ${cardNum}</span>
+              <span class="ch-tag">${card.chName}</span>
+            </div>
+            <div class="topic-title">${card.topic}</div>
+            <div class="question-text">${card.q}</div>
+          </div>
+          <div class="flip-hint">Click to Flip / Hide</div>
+        </div>
+        <div class="card-back">
+          <div class="back-grid">
+            <div>
+              <p class="explanation">${card.ans}</p>
+              <div class="recall-box">
+                <div class="recall-title">High-Yield NCERT &amp; NEET Recall</div>
+                <ul>${card.bullets.map(b => `<li>${b}</li>`).join('')}</ul>
+              </div>
+              <div class="trap-note"><strong>🚨 ${card.trap}</strong></div>
+            </div>
+            <div class="visual-box">
+              <div class="visual-label">NCERT Labelled Diagram</div>
+              ${card.svg}
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+                container.appendChild(div);
+            });
+        }
+
+        function filterCards() {
+            const val = document.getElementById('chapterFilter').value;
+            renderCards(val);
+        }
+
+        function toggleAll(show) {
+            document.querySelectorAll('.card').forEach(c => {
+                if (show) c.classList.add('revealed');
+                else c.classList.remove('revealed');
+            });
+        }
+
+        renderCards();
+    </script>
+</body>
+
+</html>
